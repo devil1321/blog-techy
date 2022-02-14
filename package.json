@@ -22,6 +22,7 @@
     "gatsby-plugin-sass": "^5.7.0",
     "gatsby-plugin-sharp": "^4.7.0",
     "gatsby-plugin-sitemap": "^5.7.0",
+    "gatsby-plugin-typescript": "^4.7.0",
     "gatsby-source-contentful": "^7.5.0",
     "gatsby-source-filesystem": "^4.7.0",
     "gatsby-transformer-sharp": "^4.7.0",
