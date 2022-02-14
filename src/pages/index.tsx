@@ -7,6 +7,7 @@ const Home = () => {
     <Layout>
       <div className="home-page">
         <Seo title ="Technology | Blogs" /> 
+        homepage
       </div>
     </Layout>
   )
