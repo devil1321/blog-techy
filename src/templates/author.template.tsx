@@ -5,7 +5,7 @@ const Author = () => {
   return (
       <div class="author-page">
          <Seo title ="Technology | Author" /> 
-         author page test
+         author page test assss
       </div>
   )
 }
