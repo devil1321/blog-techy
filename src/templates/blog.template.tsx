@@ -2,14 +2,12 @@ import React from 'react'
 import Seo from '../components/seo.component'
 import Layout from '../components/layout.component'
 
-const Home = () => {
+const Blog = () => {
   return (
-    <Layout>
-      <div className="home-page">
-        <Seo title ="Technology | Blogs" /> 
+      <div class="blog-page">
+         <Seo title ="Technology | Blog" /> 
       </div>
-    </Layout>
   )
 }
 
-export default Home
+export default Blog
