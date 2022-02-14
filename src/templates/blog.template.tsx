@@ -6,6 +6,7 @@ const Blog = () => {
   return (
       <div class="blog-page">
          <Seo title ="Technology | Blog" /> 
+         test technology
       </div>
   )
 }
