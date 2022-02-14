@@ -5,6 +5,7 @@ const Author = () => {
   return (
       <div class="author-page">
          <Seo title ="Technology | Author" /> 
+         auth templates
       </div>
   )
 }
