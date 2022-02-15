@@ -27,6 +27,7 @@ const Navbar:React.FC = ():JSX.Element => {
   return (
     <div className="navbar">
         <div className="navbar__menu">
+          <Link className="navbar__link" to="/">All</Link>
           <Link className="navbar__link" to="/gaming">Gaming</Link>
           <Link className="navbar__link" to="/movies">Movies</Link>
           <Link className="navbar__link" to="/ai">AI</Link>

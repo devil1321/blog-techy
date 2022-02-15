@@ -41,7 +41,14 @@ export interface PageQuery{
 export interface PageQueryArr {
     data:{
         allContentfulArticles:{
-            nodes:HomePageGraphNode[]
+            nodes:PageQuery[]
         }
     }
+}
+
+
+export interface CreatePagesNode {
+    id:string;
+    contentfulid:string;
+    url:string;
 }

@@ -1,19 +1,19 @@
 import React from 'react'
-import Seo from '../components/seo.component'
-import Layout from '../components/layout.component'
 import { graphql } from 'gatsby'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import { PageQueryArr } from '../interfaces'
-
+import { PageQueryArr,PageQuery } from '../interfaces'
+import Seo from '../components/seo.component'
+import Layout from '../components/layout.component'
+import BlogItem from '../components/blog-item.component'
 const Home:React.FC<PageQueryArr> = ({data}):JSX.Element => {
-  console.log({data})
-  // const image = getImage(data.allContentfulArticles.nodes[0].img)
   return (
     <Layout>
       <div className="home-page">
         <Seo title ="Technology | Blogs" /> 
-        home page
-        {/* <GatsbyImage image={image} alt={"test"} /> */}
+        <h1>All Posts</h1>
+        {data.allContentfulArticles.nodes.map((node:PageQuery)=>{
+          return <BlogItem key={node.id} data={node} />
+        })}
       </div>
     </Layout>
   )
@@ -22,9 +22,10 @@ const Home:React.FC<PageQueryArr> = ({data}):JSX.Element => {
 
 export const query = graphql`
   {
-    allContentfulArticles {
+    allContentfulArticles(filter: {node_locale: {eq: "en-US"}}) {
       nodes {
         id
+        contentfulid
         category
         title
         subtitle
