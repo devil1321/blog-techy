@@ -28,13 +28,16 @@ export interface Author {
 }
 
 export interface PageQuery{
-    id:string;
+    id?:string;
     category:string;
     date:string;
     title:string;
     subtitle:string;
     url:string;
     img:GatsbyImageData
+    article?:{
+        raw:string
+    }
     author:Author
 }
 

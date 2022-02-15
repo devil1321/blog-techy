@@ -28,13 +28,25 @@ module.exports = {
       allExtensions: true, // defaults to false
     },
   },
+  {
+    resolve: `gatsby-transformer-remark`,
+    options: {
+      // Footnotes mode (default: true)
+      footnotes: true,
+      // GitHub Flavored Markdown mode (default: true)
+      gfm: true,
+      // Plugins configs
+      plugins: [],
+    },
+  },
   `gatsby-plugin-netlify`,
   "gatsby-plugin-sass", 
   "gatsby-plugin-image", 
   "gatsby-plugin-react-helmet", 
   "gatsby-plugin-sitemap", 
   "gatsby-plugin-sharp", 
-  "gatsby-transformer-sharp"
+  "gatsby-transformer-sharp",
+  `@contentful/gatsby-transformer-contentful-richtext`
 ]
 }
 

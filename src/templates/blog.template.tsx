@@ -1,14 +1,96 @@
 import React from 'react'
 import Seo from '../components/seo.component'
 import Layout from '../components/layout.component'
+import { graphql } from 'gatsby'
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { CreatePagesNode, PageQuery } from '../interfaces'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
-const Blog = () => {
+
+interface BlogPost{
+  data:{
+    contentfulArticles:PageQuery
+  }
+  context:CreatePagesNode
+}
+
+const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
+  
+  const { img, title, subtitle, author, date } = data.contentfulArticles
+  const { authorName , authorEmail , dateOfBirth, userImage } = author
+  
+  const fixImg:any = img 
+  const image = getImage(fixImg)
+  const fixUserImage:any = userImage
+  const authorImage = getImage(fixUserImage)
+
+  const raw = JSON.parse(data.contentfulArticles.article.raw)
+  const document = {
+    nodeType: 'document',
+    ...raw,
+  };
+  
   return (
-      <div class="blog-page">
+    <Layout>
+      <div className="blog-post">
          <Seo title ="Technology | Blog" /> 
-         test technology
+        
+         <div className="blog-post__main-content">
+            <h1>{title}</h1>
+            <h3>{subtitle}</h3>
+            <div className="blog-post__content">
+              <div className="blog-post__image">
+                 <GatsbyImage image={image} alt={"blog-image"} />
+              </div>
+              <div className="blog-post__text">
+                {documentToReactComponents(document)}
+              </div>
+            </div>
+         </div>
+         <div className="blog-post__author">
+           <div className="blog-post__author-image">
+             <GatsbyImage image={authorImage} alt={"blog-image"} />
+           </div>
+           <div className="blog-post__author-info">
+              <h3>{authorName}</h3>
+              <h5>{authorEmail}</h5>
+              <p>Date of birth: {dateOfBirth}</p>
+           </div>
+         </div>
       </div>
+    </Layout>
   )
 }
+
+export const query = graphql`
+  query getBlog($contentfulid:Int){
+    contentfulArticles(contentfulid: { eq: $contentfulid}) {
+      title
+      subtitle
+      url
+      date
+      category
+
+      img {
+        gatsbyImageData(formats: WEBP, placeholder: BLURRED)
+      }
+      article {
+        raw
+      }
+      tags {
+        tags
+      }
+      author {
+        authorEmail
+        authorName
+        dateOfBirth
+        userImage {
+          gatsbyImageData(layout: CONSTRAINED, formats: WEBP)
+        }
+      }
+    }
+  }
+  `
+
 
 export default Blog
