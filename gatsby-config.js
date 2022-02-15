@@ -2,8 +2,8 @@ module.exports = {
   siteMetadata: {
     title: `Technology News`,
     description:'Site about newest technologies around the world',
-    author:'Dominik Stepien'
-    siteUrl: `https://www.yourdomain.tld`
+    author:'Dominik Stepien',
+    siteUrl: `https://www.blog-technology.netlify.app`
   },
   plugins: [{
     resolve: 'gatsby-source-contentful',
@@ -20,6 +20,14 @@ module.exports = {
     },
     __key: "images"
   },
+  {
+    resolve: `gatsby-plugin-typescript`,
+    options: {
+      isTSX: true, // defaults to false
+      jsxPragma: `jsx`, // defaults to "React"
+      allExtensions: true, // defaults to false
+    },
+  },
   `gatsby-plugin-netlify`,
   "gatsby-plugin-sass", 
   "gatsby-plugin-image", 
@@ -27,8 +35,8 @@ module.exports = {
   "gatsby-plugin-sitemap", 
   "gatsby-plugin-sharp", 
   "gatsby-transformer-sharp"
-}]
-
+]
+}
 
 // {
 //   resolve: 'gatsby-plugin-google-analytics',

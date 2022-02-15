@@ -1,4 +1,5 @@
 import React from 'react'
+import 'font-awesome/css/font-awesome.min.css';
 import '../styles/theme/theme.scss'
 import Navbar from './navbar.component'
 import Aside from './aside.component'
