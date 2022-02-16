@@ -26,3 +26,8 @@ src/styles/theme/templates/_author.scss
 src/styles/theme/templates/_blog-post.scss
 src/templates/author.template.tsx
 src/templates/blog.template.tsx
+src/components/aside.component.tsx
+src/components/blog-item.component.tsx
+src/components/footer.component.tsx
+src/components/layout.component.tsx
+src/components/navbar.component.tsx
