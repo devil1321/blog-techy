@@ -1,1 +1,99 @@
-.navbar{}
+.navbar{
+    box-sizing: border-box;
+    padding:0px 50px;
+    position: relative;
+    top:0px;
+    left:0px;
+    height:70px;
+    width: 100%;
+    background-color: $cornflower-blue;
+    @include createFlex(row,space-between,center,null);
+    @include breakpoint-down(small){
+        padding:0px 10px;
+    }
+    svg{
+        margin:0px 10px;
+        min-width: 30px;
+        min-height:30px;
+        color:white;
+    }
+  
+    &__link{
+        text-decoration: none;
+        color:white;
+        padding:21px 10px;
+        font-family: $nav-font;
+        border-bottom: 4px solid transparent;
+        &:hover{
+            border-bottom: 4px solid purple;
+        }
+    }
+    &__social{
+        @include createFlex(row,flex-start,center,null);
+
+        i{
+            color:white;
+            margin:0px 10px;
+            @include breakpoint-down(small){
+                display: none;
+            }
+        }
+        & .--search{
+            min-height:fit-content;
+            cursor: pointer;
+            svg{
+                pointer-events:none;
+            }
+        }
+    }
+    &__search{
+        opacity:0;
+        visibility: hidden;
+        pointer-events: none;
+        box-sizing: border-box;
+        padding:0px 50px;
+        position: absolute;
+        top:0px;
+        left:0px;
+        height:100%;
+        width: 100%;
+        background-color: $cornflower-blue;
+        transition: all 1s ease-in-out;
+        @include createFlex(row,flex-start,center,null);
+        @include breakpoint-down(small){
+            padding:0px 10px;
+        }
+        &-field{
+            @include createFlex(row,flex-start,center,null);
+            input{
+                pointer-events: all;
+                min-width: 300px;
+                background:transparent;
+                border:0px;
+                color:white;
+                &:focus,&:active, &::placeholder{
+                    border:0px;
+                    outline:0px;
+                    font-size:pxToRem(18);
+                }
+            }
+        }
+    }
+    &__close-btn{
+        cursor: pointer;
+        pointer-events: all;
+        margin-left: auto;
+        span{
+            display: block;
+            width: 40px;
+            border-bottom: 2px solid white;
+            transform-origin: 18px 1px;
+            &:first-of-type{
+                transform:rotate(45deg);
+            }
+            &:last-of-type{
+                transform:rotate(-45deg);
+            }
+        }
+    }
+}

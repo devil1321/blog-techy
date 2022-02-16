@@ -1,5 +1,5 @@
 /*-------------------------GLOBAL------------------------------*/
-
+@import '../normalize';
 @import '../fonts';
 @import '../variables';
 @import '../mixins';
@@ -8,6 +8,7 @@
 /*-------------------------COMPONENTS--------------------------*/
 @import './components/layout';
 @import './components/navbar';
+@import './components/blog-item';
 @import './components/carousel';
 @import './components/aside';
 @import './components/calendar';
@@ -15,7 +16,8 @@
 
 /*-------------------------PAGES-------------------------------*/
 
-@import './pages/home';
+@import './pages/posts-page';
+@import './pages/about';
 @import './pages/404';
 
 /*-------------------------TEMPLATES--------------------------*/
