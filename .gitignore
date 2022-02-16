@@ -22,9 +22,5 @@ src/pages/ai.tsx
 src/pages/gaming.tsx
 src/pages/index.tsx
 src/pages/movies.tsx
-src/styles/_mixins.scss
-src/styles/_normalize.scss
-src/styles/theme/components/_blog-item.scss
-src/styles/theme/pages/_posts-page.scss
 src/templates/author.template.tsx
 src/templates/blog.template.tsx
