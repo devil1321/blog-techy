@@ -1,3 +1,4 @@
+
 module.exports = {
   siteMetadata: {
     title: `Technology News`,
@@ -38,6 +39,35 @@ module.exports = {
       // Plugins configs
       plugins: [],
     },
+  },
+  {
+    resolve: `gatsby-source-google-calendar`,
+    options: {
+      calendarIds: [
+        'khirltpoo2j9qbvtjqjjgsbiug@group.calendar.google.com',
+      ],
+      // options to retrieve the next 10 upcoming events
+      timeMin: (new Date()).toISOString(),
+      maxResults: 10,
+      singleEvents: true,
+      orderBy: 'startTime',
+    }
+  },
+  {
+    resolve: `gatsby-source-google-calendar-events`,
+    options: {
+      includedFields: ['start', 'end', 'summary', 'status', 'organizer', 'description', 'location'],
+      envVar: 'AIzaSyDNtSvLRVuGeI6R5PisXRvjbSmNd4koL-E',
+      calendarId: 'khirltpoo2j9qbvtjqjjgsbiug@group.calendar.google.com',
+      assumedUser: 's.dominik132@gmail.com',
+      timeMin: moment().format(),
+      timeMax: moment().add(2, 'y').format(),
+      scopes: [
+          `https://www.googleapis.com/auth/calendar.events.readonly`,
+          `https://www.googleapis.com/auth/calendar.readonly`
+      ]
+
+      }
   },
   `gatsby-plugin-netlify`,
   "gatsby-plugin-sass", 

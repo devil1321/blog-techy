@@ -1,3 +1,4 @@
+var moment = require('moment');
 module.exports = {
     siteMetadata: {
         title: "Technology News",
@@ -44,7 +45,7 @@ module.exports = {
         "gatsby-plugin-react-helmet",
         "gatsby-plugin-sitemap",
         "gatsby-plugin-sharp",
-        "gatsby-transformer-sharp",
+        "gatsby-transformer-sharp", "@contentful/gatsby-transformer-contentful-richtext"
     ]
 };
 // {
