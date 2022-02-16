@@ -1,4 +1,5 @@
 import React,{ useEffect,useRef,useState }  from 'react'
+import { gsap } from 'gsap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
@@ -74,13 +75,14 @@ const Aside = React.forwardRef((props,ref) => {
 
       for(let i = 0; i <= this.daysOfMonth[month] + firstDay.getDay() -1; i++){
         let day = document.createElement('div')
+        day.classList.add('calendar__day-item')
         if(i >= firstDay.getDay()){
-          day.classList.add('calendar-day-hover')
+          day.classList.add('calendar__day-hover')
           const dayNR = i - firstDay.getDay() + 1
           this.tempDate = new Date(year,month,dayNR+1)
           day.setAttribute('data-date',this.tempDate.toISOString())
           day.innerHTML = dayNR.toString()
-          day.innerHTML += `<span></span><span></span><span></span><span></span>`
+          day.innerHTML += ``
           day.addEventListener('click',(e:any)=>{setFormData((prevState)=>({
                 ...prevState,
                 start:{
@@ -98,7 +100,7 @@ const Aside = React.forwardRef((props,ref) => {
         }
         this.calendarDaysRef.current.appendChild(day)
       }
-
+      AnimationsUI.calendarDaysComesIn()
     }
     generateMonths = () =>{
       this.monthListRef.current.innerHTML = ''
@@ -129,8 +131,33 @@ const Aside = React.forwardRef((props,ref) => {
     }
   }
 
+  class Animations {
+    public days:NodeListOf<HTMLDivElement>
+    constructor(){
+      this.tl = gsap.timeline()
+    }
+    calendarDaysComesIn = () =>{
+      gsap.fromTo('.calendar__day-item', {
+        y: 5,
+        x:-5,
+        opacity:0
+      },{
+        x:0,
+        y:0,
+        opacity:1,
+        stagger: { // wrap advanced options in an object
+          each: 0.05,
+          from: "start",
+          grid: "auto",
+          ease: "power2.inOut",
+        }
+      });
+    }
+  }
+
   const CalendarUI = new Calendar()
   const AsideUI = new SetAside()
+  const AnimationsUI = new Animations()
 
   useEffect(()=>{
     AsideUI.setAside()
@@ -140,6 +167,7 @@ const Aside = React.forwardRef((props,ref) => {
 
   return (
     <div className="aside" ref={AsideUI.asideRef}>
+      <h2 className="aside__title">Umów Spotkanie</h2>
       <div className="calendar" ref={CalendarUI.calendarRef}>
         <div className="calendar__header">
           <span onClick={()=>{CalendarUI.showMonths()}} className="calendar__month-picker" id="month-picker" ref={CalendarUI.monthPickerRef}>
