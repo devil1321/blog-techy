@@ -48,7 +48,7 @@ exports.createPages = function (_a) {
                     blogs = _b.sent();
                     blogs.data.allContentfulArticles.nodes.forEach(function (node) {
                         actions.createPage({
-                            path: node.url,
+                            path: "".concat(node.url, "/"),
                             component: path.resolve('./src/templates/blog.template.tsx'),
                             context: {
                                 id: node.id,

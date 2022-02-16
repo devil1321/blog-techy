@@ -14,7 +14,7 @@ const BlogItem:React.FC<BlogItemProps> = ({data}) => {
   const fixImg:any = img 
   const image = getImage(fixImg)
   return (
-    <Link to={url}>
+    <Link to={`${url}`}>
       <div className="blog-item">
           <div className="blog-item__image">
               <GatsbyImage image={image} alt={"blog-image"} /> 

@@ -12,9 +12,6 @@
         font-size: pxToRem(30);
     }
     .calendar{
-        .curr-date{
-            background-color:blue;
-        }
         height:260px;
         width: 330px;
         position: relative;
@@ -60,6 +57,9 @@
             }
             .calendar__day-hover:hover{
                 background-color: grey;
+            }
+            .curr-date{
+                background-color:blue;
             }
         }
         &__month-list{

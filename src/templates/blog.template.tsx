@@ -75,7 +75,7 @@ export const query = graphql`
       category
 
       img {
-        gatsbyImageData(formats: WEBP, placeholder: BLURRED)
+        gatsbyImageData(layout:FULL_WIDTH,formats: WEBP, placeholder: BLURRED)
       }
       article {
         raw
