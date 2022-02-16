@@ -19,15 +19,18 @@ export interface GatsbyImageData{
 
 
 export interface Author {
-    id:string;
+    id?:number;
     authorEmail:string;
     authorName:string;
     dateOfBirth:string;
     userImage:GatsbyImageData
+    authorDescription?:{
+        raw:string
+    }
 
 }
 
-export interface PageQuery{
+export interface PageQueryArticles{
     id?:string;
     category:string;
     date:string;
@@ -41,17 +44,22 @@ export interface PageQuery{
     author:Author
 }
 
-export interface PageQueryArr {
+export interface PageQueryArticlesArr {
     data:{
         allContentfulArticles:{
-            nodes:PageQuery[]
+            nodes:PageQueryArticles[]
         }
     }
 }
 
 
-export interface CreatePagesNode {
+export interface CreatePagesNodeArticle {
     id:string;
-    contentfulid:string;
+    contentfulid:number;
     url:string;
+}
+export interface CreatePagesNodePerson {
+    contentfulid:string;
+    authorName:string;
+
 }

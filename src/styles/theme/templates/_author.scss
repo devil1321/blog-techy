@@ -1,0 +1,12 @@
+.author-template{
+    &__info-wrapper{
+        @include createFlex(row,flex-start,center,null);
+    }
+    &__info{
+        margin-left:20px;
+        svg{
+            min-width: 20px;
+            margin-right: 10px;
+        }
+    }
+}

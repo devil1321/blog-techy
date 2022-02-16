@@ -2,22 +2,23 @@ import React from 'react'
 import Seo from '../components/seo.component'
 import Layout from '../components/layout.component'
 import { graphql } from 'gatsby'
+import Link from 'gatsby-link'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import { CreatePagesNode, PageQuery } from '../interfaces'
+import { CreatePagesNodeArticle, PageQueryArticles } from '../interfaces'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 
 interface BlogPost{
   data:{
-    contentfulArticles:PageQuery
+    contentfulArticles:PageQueryArticles
   }
-  context:CreatePagesNode
+  context:CreatePagesNodeArticle
 }
 
 const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
   
   const { img, title, subtitle, author, date } = data.contentfulArticles
-  const { authorName , authorEmail , dateOfBirth, userImage } = author
+  const { contentfulid, authorName , authorEmail , dateOfBirth, userImage } = author
   
   const fixImg:any = img 
   const image = getImage(fixImg)
@@ -47,6 +48,7 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
               </div>
             </div>
          </div>
+        <Link to={`/author/${contentfulid}/${authorName}`}>
          <div className="blog-post__author">
            <div className="blog-post__author-image">
              <GatsbyImage image={authorImage} alt={"blog-image"} />
@@ -56,7 +58,8 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
               <h5>{authorEmail}</h5>
               <p>Date of birth: {dateOfBirth}</p>
            </div>
-         </div>
+          </div>
+         </Link>
       </div>
     </Layout>
   )
@@ -81,6 +84,7 @@ export const query = graphql`
         tags
       }
       author {
+        contentfulid
         authorEmail
         authorName
         dateOfBirth

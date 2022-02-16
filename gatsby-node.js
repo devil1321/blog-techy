@@ -40,19 +40,31 @@ var path = require('path');
 exports.createPages = function (_a) {
     var graphql = _a.graphql, actions = _a.actions;
     return __awaiter(void 0, void 0, void 0, function () {
-        var data;
+        var blogs, persons;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, graphql("\n    {\n      allContentfulArticles(filter: {node_locale: {eq: \"en-US\"}}) {\n        nodes {\n          id\n          url\n          contentfulid\n        }\n      }\n    }\n  ")];
                 case 1:
-                    data = (_b.sent()).data;
-                    data.allContentfulArticles.nodes.forEach(function (node) {
+                    blogs = _b.sent();
+                    blogs.data.allContentfulArticles.nodes.forEach(function (node) {
                         actions.createPage({
                             path: node.url,
                             component: path.resolve('./src/templates/blog.template.tsx'),
                             context: {
                                 id: node.id,
-                                contentfulid: node.contentfulid
+                                contentfulid: parseInt(node.contentfulid)
+                            }
+                        });
+                    });
+                    return [4 /*yield*/, graphql("{\n      allContentfulPerson(filter: {node_locale: {eq: \"en-US\"}}) {\n        nodes {\n          contentfulid\n          authorName\n        }\n      }\n    }\n  ")];
+                case 2:
+                    persons = _b.sent();
+                    persons.data.allContentfulPerson.nodes.forEach(function (node) {
+                        actions.createPage({
+                            path: "/author/".concat(node.contentfulid, "/").concat(node.authorName),
+                            component: path.resolve('./src/templates/author.template.tsx'),
+                            context: {
+                                contentfulid: parseInt(node.contentfulid)
                             }
                         });
                     });

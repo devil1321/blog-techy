@@ -4,7 +4,7 @@ const Aside = React.forwardRef((props,ref) => {
 
   class SetAside{
     public asideRef:any;
-    public container:HTMLDivElement
+    public container:any
     constructor(){
       this.asideRef = useRef()
       this.container = ref

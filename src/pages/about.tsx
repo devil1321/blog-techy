@@ -8,9 +8,9 @@ import BlogItem from '../components/blog-item.component'
 const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
   return (
     <Layout>
-      <div className="posts-page">
-        <Seo title ="Technology | Blogs" />
-        <h1>All Posts</h1>
+      <div className="about-page">
+        <Seo title ="Technology | About Us" />
+        <h1>Gaming Posts</h1>
         {data.allContentfulArticles.nodes.map((node:PageQueryArticles)=>{
           return <BlogItem key={node.id} data={node} />
         })}
@@ -22,7 +22,7 @@ const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
 
 export const query = graphql`
   {
-    allContentfulArticles(filter: {node_locale: {eq: "en-US"}}) {
+    allContentfulArticles(filter: {category: {eq: "gaming"}}) {
       nodes {
         id
         contentfulid
