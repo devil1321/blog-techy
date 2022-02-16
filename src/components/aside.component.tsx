@@ -2,7 +2,21 @@ import React,{ useEffect,useRef,useState }  from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+
 const Aside = React.forwardRef((props,ref) => {
+
+  const [formData,setFormData] = useState({
+    start:{
+      date:''
+    },
+    end:{
+      date:''
+    },
+    summary:'',
+    creator:{
+      email:''
+    }
+  })
 
   class SetAside{
     public asideRef:any;
@@ -17,7 +31,9 @@ const Aside = React.forwardRef((props,ref) => {
       }
     }
   }
-
+  useEffect(()=>{
+    console.log(formData)
+  },[formData])
   class Calendar{
     public currDate:any
     public currMonth:number
@@ -51,7 +67,7 @@ const Aside = React.forwardRef((props,ref) => {
       return this.isLeapYear(year) ? 29 : 28
     }
     generateCalendar = (month,year) =>{
-      
+      this.calendarDaysRef.current.innerHTML = ''
       let firstDay = new Date(month,year,1)
       this.monthPickerRef.current.innerHTML = this.months[month]
       this.calendarHeaderYearRef.current.innerHTML = year
@@ -65,6 +81,17 @@ const Aside = React.forwardRef((props,ref) => {
           day.setAttribute('data-date',this.tempDate.toISOString())
           day.innerHTML = dayNR.toString()
           day.innerHTML += `<span></span><span></span><span></span><span></span>`
+          day.addEventListener('click',(e:any)=>{setFormData((prevState)=>({
+                ...prevState,
+                start:{
+                  date:e.target.dataset.date
+                },
+                end:{
+                  date:e.target.dataset.date
+                }
+              })
+            )
+        })
         }
         if(i - firstDay.getDay() + 1 === this.currDate.getDate() && year === this.currDate.getFullYear() && month === this.currDate.getMonth()){
           day.classList.add('curr-date')
@@ -74,28 +101,30 @@ const Aside = React.forwardRef((props,ref) => {
 
     }
     generateMonths = () =>{
+      this.monthListRef.current.innerHTML = ''
       this.months.forEach((month:string) => {
         let monthEl = document.createElement('div')
         monthEl.innerHTML = month
-        monthEl.addEventListener('click',this.hideMonths)
+        monthEl.addEventListener('click',(e)=>this.hideMonths(e))
         this.monthListRef.current.appendChild(monthEl)
       })
     }
     hideMonths = (e:any) =>{
-      this.monthPickerRef.current.classList.remove('--show')
+      console.log('hide')
+      this.monthListRef.current.classList.remove('--show')
       const current = this.months.indexOf(e.target.textContent )
       this.currMonth = current
       this.generateCalendar(this.currMonth,this.currYear)
     }
     showMonths = () =>{
-      this.monthPickerRef.current.classList.add('--show')
+      this.monthListRef.current.classList.add('--show')
     }
     nextYear = () =>{
-      ++this.currYear
+      this.currYear++
       this.generateCalendar(this.currMonth,this.currYear)
     }
     prevYear = () =>{
-      --this.currYear
+      this.currYear--
       this.generateCalendar(this.currMonth,this.currYear)
     }
   }
@@ -111,15 +140,12 @@ const Aside = React.forwardRef((props,ref) => {
 
   return (
     <div className="aside" ref={AsideUI.asideRef}>
-      {/* <div className="aside-calendar">
-        <iframe src="https://calendar.google.com/calendar/embed?height=300&wkst=1&bgcolor=%23616161&ctz=Europe%2FWarsaw&showTitle=0&showTz=0&showNav=1&showTabs=0&showPrint=0&src=Y2Nhdm0wZXBmNGFvdWZkc2o5djk3ZnFmbWtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%23795548" style={{borderWwidth:0}} width="400" height="300" frameborder="0" scrolling="no"></iframe>
-      </div> */}
       <div className="calendar" ref={CalendarUI.calendarRef}>
         <div className="calendar__header">
-          <span onClick={()=>{CalendarUI.showMonths()}} className="month-picker" id="month-picker" ref={CalendarUI.monthPickerRef}>
+          <span onClick={()=>{CalendarUI.showMonths()}} className="calendar__month-picker" id="month-picker" ref={CalendarUI.monthPickerRef}>
             Febuary
           </span>
-          <div className="year-picker">
+          <div className="calendar__year-picker">
             <span className="year-change" id="prev-year" onClick={()=>{CalendarUI.prevYear()}}>
               <span><FontAwesomeIcon icon={faChevronLeft} /></span>
             </span>
@@ -143,7 +169,7 @@ const Aside = React.forwardRef((props,ref) => {
            
           </div>
         </div>
-        <div className="month-list" ref={CalendarUI.monthListRef}></div>
+        <div className="calendar__month-list" ref={CalendarUI.monthListRef}></div>
       </div>
     </div>
   )
