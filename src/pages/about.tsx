@@ -3,11 +3,11 @@ import { graphql } from 'gatsby'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { PageQueryArticlesArr,PageQueryArticles } from '../interfaces'
 import Seo from '../components/seo.component'
-import LayoutWithAside from '../components/layout-with-aside.component'
+import LayoutWithoutAside from '../components/layout-without-aside.component'
 import BlogItem from '../components/blog-item.component'
 const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
   return (
-    <LayoutWithAside>
+    <LayoutWithoutAside>
       <div className="about-page">
         <Seo title ="Technology | About Us" />
         <h1>Gaming Posts</h1>
@@ -15,7 +15,7 @@ const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
           return <BlogItem key={node.id} data={node} />
         })}
       </div>
-    </LayoutWithAside>
+    </LayoutWithoutAside>
   )
 }
 

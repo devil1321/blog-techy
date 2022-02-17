@@ -99,6 +99,11 @@
       width: 95%;
       border: 0px;
       border-bottom: 1px solid lightgrey;
+      &:focus, &:active{
+        border:0px !important;
+        outline:none !important;
+        border-bottom: 1px solid yellowgreen;
+      }
     }
     button{
         cursor: pointer;

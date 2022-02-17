@@ -77,3 +77,12 @@ export interface  AsideFormData{
         email:string;
     }
 }
+
+export interface SearchNode{
+    allContentfulArticles:{
+        nodes:{
+            title:string;
+            url:string;
+        }
+    }
+}

@@ -3,11 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import Link from 'gatsby-link'
 import { useStaticQuery, graphql } from "gatsby"
+import { SearchNode } from '../interfaces'
+
+interface NavbarMatchesState {
+    title:string:
+    url:string;
+}
 
 const Navbar:React.FC = ():JSX.Element => {
-  const [matches,setMatches] = useState<string[]>('')
+  const [matches,setMatches] = useState<NavbarMatchesState[]>([])
 
-  const data = useStaticQuery(graphql`
+  const data:SearchNode = useStaticQuery(graphql`
   {
     allContentfulArticles(filter: {node_locale: {eq: "en-US"}}) {
       nodes {
@@ -85,7 +91,7 @@ useEffect(()=>{
         </div>
         {matches.length > 0 && 
         <div className="navbar__search-items" ref={SearchUI.searchItems}>
-          {matches.map((match:string)=>{
+          {matches.map((match:NavbarMatchesState)=>{
             return <Link to={match.url}>
                       <div className="navbar__match-result">{match.title}</div>
                    </Link>
