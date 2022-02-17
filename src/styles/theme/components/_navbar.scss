@@ -96,4 +96,41 @@
             }
         }
     }
+    &__search-items{
+        overflow-y: scroll;
+        padding:10px;
+        position: absolute;
+        left:60px;
+        top:90px;
+        z-index: 5;
+        background-color: $cornflower-blue;
+        min-height: 200px;
+        height:100%;
+        max-height:100%;
+        max-width: 350px;
+        color:white;
+        transition: all 1s ease-in-out;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius:5px;
+        animation: searchIN 0.5s ease-in-out forwards;
+        box-shadow: 0px 2px 5px black;
+        @keyframes searchIN {
+            0%{
+                opacity:0;
+                top:100px;
+            }
+            100%{
+                opacity:1;
+                top:75px;
+            }
+        }
+    }
+    &__match-result{
+        cursor: pointer;
+        padding:10px 0px;
+        color:white;
+        &:hover{
+            background-color: grey;
+        }
+    }
 }

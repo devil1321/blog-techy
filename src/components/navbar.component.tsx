@@ -1,12 +1,27 @@
-import React,{useRef} from 'react'
+import React,{useRef,useState,useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import Link from 'gatsby-link'
+import { useStaticQuery, graphql } from "gatsby"
 
 const Navbar:React.FC = ():JSX.Element => {
-    
+  const [matches,setMatches] = useState<string[]>('')
+
+  const data = useStaticQuery(graphql`
+  {
+    allContentfulArticles(filter: {node_locale: {eq: "en-US"}}) {
+      nodes {
+        title
+        url
+      }
+    }
+  }
+`)
+  
+
   class Search {
     public searchRef:any;
+    public searchItems = useRef()
     constructor(){
       this.searchRef = useRef()
     }
@@ -20,10 +35,24 @@ const Navbar:React.FC = ():JSX.Element => {
       this.searchRef.current.style.opacity = 0
 
     }
+    isMatch = (e) => {
+      if(e.target.value.length > 0){
+        const tempMatches = data.allContentfulArticles.nodes.filter(item => {
+          const matchRegExp = new RegExp(`^${e.target.value}`,'gi')
+          return item.title.match(matchRegExp)
+        })
+        setMatches(tempMatches)
+      }else{
+        setMatches([])
+      }        
+    }
   }
+   
   
   const SearchUI = new Search
  
+useEffect(()=>{
+},[])
   return (
     <div className="navbar">
         <div className="navbar__menu">
@@ -44,13 +73,24 @@ const Navbar:React.FC = ():JSX.Element => {
         <div className="navbar__search" ref={SearchUI.searchRef}>
           <div className="navbar__search-field">
             <FontAwesomeIcon icon={faMagnifyingGlass}/>
-            <input type="text" placeholder="What are you searching for ?"/>
+            <input type="text" placeholder="What are you searching for ?" onInput={(e)=>{
+              SearchUI.isMatch(e)
+            }
+            }/>
           </div>
           <div className="navbar__close-btn --close" onClick={()=>{SearchUI.isClose()}}>
             <span></span>
             <span></span>
           </div>
         </div>
+        {matches.length > 0 && 
+        <div className="navbar__search-items" ref={SearchUI.searchItems}>
+          {matches.map((match:string)=>{
+            return <Link to={match.url}>
+                      <div className="navbar__match-result">{match.title}</div>
+                   </Link>
+          })}
+        </div>}
     </div>
   )
 }
