@@ -20,6 +20,7 @@ export interface GatsbyImageData{
 
 export interface Author {
     id?:number;
+    contentfulid?:string;
     authorEmail:string;
     authorName:string;
     dateOfBirth:string;
@@ -55,11 +56,24 @@ export interface PageQueryArticlesArr {
 
 export interface CreatePagesNodeArticle {
     id:string;
-    contentfulid:number;
+    contentfulid:any;
     url:string;
 }
 export interface CreatePagesNodePerson {
     contentfulid:string;
     authorName:string;
 
+}
+
+export interface  AsideFormData{
+    start:{
+        date:string;
+      },
+    end:{
+        date:string;
+      },
+      summary:'',
+    creator:{
+        email:string;
+    }
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import { PageQuery } from  '../interfaces'
+import { PageQueryArticles } from  '../interfaces'
 import Link from 'gatsby-link'
 
 interface BlogItemProps {
-    data:PageQuery
+    data:PageQueryArticles
 }
 
 const BlogItem:React.FC<BlogItemProps> = ({data}) => {
