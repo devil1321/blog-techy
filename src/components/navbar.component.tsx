@@ -6,7 +6,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import { SearchNode } from '../interfaces'
 
 interface NavbarMatchesState {
-    title:string:
+    title:string;
     url:string;
 }
 

@@ -10,7 +10,7 @@
         top: 0px;
         margin: 0px auto;
         margin-top: 30px;
-        height: 260px;
+        height: 220px;
         width: 312px;
         padding: 30px;
         background-color: $cornflower-blue;
@@ -18,10 +18,11 @@
         transition: all 1s ease-in-out;
         color:white;
         animation: comesIn 0.7s ease-in-out forwards;
+        
         img {
             position: relative;
-            top: -15px;
-            left: 0px;
+            top: 5px;
+            left: 10px;
             padding-top: 20px;
             padding-bottom: 0px;
             display: block;

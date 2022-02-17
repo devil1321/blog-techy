@@ -31,7 +31,7 @@ const Aside = React.forwardRef((props,ref) => {
   return (
     <AsideFormDataProvider>
       <div className="aside" ref={AsideUI.asideRef}>
-        <h2 className="aside__title">Umów Spotkanie</h2>
+        <h2 className="aside__title">Make An Appointment</h2>
         <Calendar />
         <WheatherMainItem />
       </div>
