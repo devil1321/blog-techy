@@ -37,6 +37,71 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var path = require('path');
+var axios = require('axios');
+var crypto = require('crypto');
+exports.sourceNodes = function (_a) {
+    var actions = _a.actions;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var createNode, city, wheartherData, _b, weather, visibility, wind, coord, _c, temp, feels_like, humidity, pressure, wheatherNode, contentDigest;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0:
+                    createNode = actions.createNode;
+                    return [4 /*yield*/, axios.get('https://extreme-ip-lookup.com/json/')
+                            .then(function (res) {
+                            var city;
+                            if (res.data.city === '') {
+                                return city = 'Warsaw';
+                            }
+                            else {
+                                return res.data.city;
+                            }
+                        })["catch"](function (err) { return console.log(err); })];
+                case 1:
+                    city = _d.sent();
+                    return [4 /*yield*/, axios.get('https://api.openweathermap.org/data/2.5/weather', {
+                            params: {
+                                q: city,
+                                appid: 'd355aaa337c3ed0e0876c199a8060479'
+                            }
+                        }).then(function (data) {
+                            return data;
+                        })["catch"](function (err) { return console.log(err); })];
+                case 2:
+                    wheartherData = _d.sent();
+                    _b = wheartherData.data, weather = _b.weather, visibility = _b.visibility, wind = _b.wind, coord = _b.coord;
+                    _c = wheartherData.data.main, temp = _c.temp, feels_like = _c.feels_like, humidity = _c.humidity, pressure = _c.pressure;
+                    wheatherNode = {
+                        id: "WheatherData",
+                        parent: "__SOURCE__",
+                        internal: {
+                            type: "Wheather"
+                        },
+                        children: [],
+                        city: city,
+                        weather: weather,
+                        visibility: visibility,
+                        wind: wind,
+                        coord: coord,
+                        temp: temp,
+                        feels_like: feels_like,
+                        humidity: humidity,
+                        pressure: pressure,
+                        temp: temp
+                    };
+                    contentDigest = crypto
+                        .createHash("md5")
+                        .update(JSON.stringify(wheatherNode))
+                        .digest("hex");
+                    // add it to userNode
+                    wheatherNode.internal.contentDigest = contentDigest;
+                    // Create node with the gatsby createNode() API
+                    createNode(wheatherNode);
+                    return [2 /*return*/];
+            }
+        });
+    });
+};
 exports.createPages = function (_a) {
     var graphql = _a.graphql, actions = _a.actions;
     return __awaiter(void 0, void 0, void 0, function () {

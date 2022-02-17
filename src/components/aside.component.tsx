@@ -1,7 +1,7 @@
 import React,{ useEffect,useRef,useContext }  from 'react'
 import Calendar from './calendar.compoent'
 import { AsideFormDataProvider, AsideFormDataContext } from '../context'
-
+import WheatherMainItem from './wheather-widget.component'
 
 
 const Aside = React.forwardRef((props,ref) => { 
@@ -33,6 +33,7 @@ const Aside = React.forwardRef((props,ref) => {
       <div className="aside" ref={AsideUI.asideRef}>
         <h2 className="aside__title">Umów Spotkanie</h2>
         <Calendar />
+        <WheatherMainItem />
       </div>
     </AsideFormDataProvider>
   )

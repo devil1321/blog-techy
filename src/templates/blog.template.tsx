@@ -1,6 +1,6 @@
 import React from 'react'
 import Seo from '../components/seo.component'
-import Layout from '../components/layout.component'
+import LayoutWithAside from '../components/layout-with-aside.component'
 import { graphql } from 'gatsby'
 import Link from 'gatsby-link'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
@@ -32,7 +32,7 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
   };
   
   return (
-    <Layout>
+    <LayoutWithAside>
       <div className="blog-post">
          <Seo title ="Technology | Blog" /> 
         
@@ -61,7 +61,7 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
           </div>
          </Link>
       </div>
-    </Layout>
+    </LayoutWithAside>
   )
 }
 

@@ -8,7 +8,7 @@ import { faCakeCandles} from '@fortawesome/free-solid-svg-icons'
 import { graphql } from 'gatsby'
 import { Author as AuthorModel } from '../interfaces'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import Layout from '../components/layout.component'
+import LayoutWithAside from '../components/layout-with-aside.component'
 
 
 interface AuthorProps{
@@ -34,7 +34,7 @@ const Author :React.FC<AuthorProps> = ({context,data}) => {
   };
 
   return (
-    <Layout>
+    <LayoutWithAside>
       <div className="author-template">
          <Seo title ="Technology | Author" /> 
          <div className="author-template__info-wrapper">
@@ -47,7 +47,7 @@ const Author :React.FC<AuthorProps> = ({context,data}) => {
          </div>
          {documentToReactComponents(document)}
       </div>
-    </Layout>
+    </LayoutWithAside>
   )
 }
 

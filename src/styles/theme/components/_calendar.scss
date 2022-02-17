@@ -101,6 +101,7 @@
       border-bottom: 1px solid lightgrey;
     }
     button{
+        cursor: pointer;
         margin:10px 0px;
         display: block;
         font-weight:$f-bold;

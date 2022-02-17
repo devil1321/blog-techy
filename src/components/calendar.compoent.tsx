@@ -134,7 +134,7 @@ const Calendar = () => {
 
         }
     }
-    hideTooltip = (e) =>{
+    hideTooltip = () =>{
        this.tooltipRef.current.style.opacity = 0
        this.tooltipRef.current.style.visibility = 'hidden'
        this.tooltipRef.current.style.top = '500px'
@@ -242,7 +242,7 @@ const Calendar = () => {
                 <span></span>
             </div>
             <form className="calendar__tooltip-form" action="">
-                <input type="text" placeholder="Your Name"/>
+                <input type="text" placeholder="Your Name" onClick={()=>{}}/>
                 <input type="email" placeholder="Your Email" />
                 <button type="submit">Add Meeting</button>
             </form>

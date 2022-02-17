@@ -1,10 +1,10 @@
 import React from 'react'
-import Layout from '../components/layout.component'
+import LayoutWithAside from '../components/layout-with-aside.component'
 const NotFound = () => {
   return (
-    <Layout>
+    <LayoutWithAside>
         <div>NotFound</div>
-    </Layout>
+    </LayoutWithAside>
   )
 }
 
