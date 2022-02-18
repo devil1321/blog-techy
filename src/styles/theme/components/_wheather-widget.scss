@@ -19,16 +19,26 @@
         transition: all 1s ease-in-out;
         color:white;
         animation: comesIn 0.7s ease-in-out forwards;
-        @include breakpoint-down(small){
+        @include breakpoint-down(medium){
             width:85%;
-            left:-2%;
+            left:0%;
             margin:30px auto;
             padding:30px 30px 50px;
           }
+        @media (max-device-width:390px){
+            padding:30px 30px 80px;
+
+        }
+        @include breakpoint-down-l(medium){
+            padding:30px 30px 80px;
+
+        }
+        
+        
         img {
             position: relative;
             top: 5px;
-            left: 10px;
+            left: 20px;
             padding-top: 20px;
             padding-bottom: 0px;
             display: block;
@@ -58,6 +68,9 @@
     }
     &__wheather-info {
         margin-top: 10px;
+        @include breakpoint-down-l(medium){
+            margin-top: -20px;
+        }
         @include createFlex(row, space-between, center, wrap);
         p {
             @include createFlex(row, flex-start, center, null);
@@ -68,6 +81,14 @@
             margin-right: 5px;
             width: 25%;
             background-color: rgba(255, 255, 255, 0.185);
+            @media (max-device-width:390px){
+                width: 40%;
+    
+            }
+            @include breakpoint-down-l(medium){
+                width: 40%;
+            }
+
         }
     }
 }

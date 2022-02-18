@@ -34,7 +34,7 @@ const All:React.FC<PageQueryArticlesArr> = (props):JSX.Element => {
           <GatsbyImage image={UI.getImgSrc('hero-bg')} alt="hero-bg" />
           <div className="about-page__hero-text">
             <h1>Techy</h1>
-            <h2>Best Blog About Newest Technologies around world</h2>
+            <h2>Best Blog About Newest Technologies Around World</h2>
             <p>Scroll down and explore our content. Be on time with newest products. Add amazing content to our website</p>
           </div>
           <div className="about-page__hero-item">

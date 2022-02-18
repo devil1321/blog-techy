@@ -2,11 +2,11 @@
     margin:10px 0px;
     width: 85%;
     @include createFlex(row,flex-start,center,null);
-    @include breakpoint-down(small){
+    @include breakpoint-down(medium){
         position: relative;
         top:0px;
         left:50%;
-        transform:translateX(-53%);
+        transform:translateX(-50%);
         width: 100%;
         @include createFlex(column,center,center,null);
     }
@@ -23,7 +23,7 @@
         img{
             width: 100%;
         }
-        @include breakpoint-down(small){
+        @include breakpoint-down(medium){
             min-width: 100%;
             margin:0px;
         }

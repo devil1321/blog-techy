@@ -27,8 +27,11 @@ const Navbar:React.FC = ():JSX.Element => {
 
   class Search {
     public searchRef:any;
-    public searchItems = useRef()
+    public searchItemsRef:any;
+    public inputRef:any;
     constructor(){
+      this.searchItemsRef = useRef()
+      this.inputRef = useRef()
       this.searchRef = useRef()
     }
     isOpen = () =>{
@@ -37,6 +40,8 @@ const Navbar:React.FC = ():JSX.Element => {
       this.searchRef.current.style.opacity = 1
     }
     isClose = () =>{
+      setMatches([])
+      this.inputRef.current.value = ''
       this.searchRef.current.style.visibility = 'hidden'
       this.searchRef.current.style.opacity = 0
 
@@ -79,7 +84,7 @@ useEffect(()=>{
         <div className="navbar__search" ref={SearchUI.searchRef}>
           <div className="navbar__search-field">
             <FontAwesomeIcon icon={faMagnifyingGlass}/>
-            <input type="text" placeholder="What are you searching for ?" onInput={(e)=>{
+            <input ref={SearchUI.inputRef} type="text" placeholder="What are you searching for ?" onInput={(e)=>{
               SearchUI.isMatch(e)
             }
             }/>
@@ -90,7 +95,7 @@ useEffect(()=>{
           </div>
         </div>
         {matches.length > 0 && 
-        <div className="navbar__search-items" ref={SearchUI.searchItems}>
+        <div className="navbar__search-items" ref={SearchUI.searchItemsRef}>
           {matches.map((match:NavbarMatchesState)=>{
             return <Link to={match.url}>
                       <div className="navbar__match-result">{match.title}</div>
