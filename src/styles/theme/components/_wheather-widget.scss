@@ -18,7 +18,12 @@
         transition: all 1s ease-in-out;
         color:white;
         animation: comesIn 0.7s ease-in-out forwards;
-        
+        @include breakpoint-down(small){
+            width:85%;
+            left:-2%;
+            margin:30px auto;
+            padding:30px 30px 50px;
+          }
         img {
             position: relative;
             top: 5px;

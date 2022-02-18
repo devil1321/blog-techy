@@ -9,15 +9,15 @@ interface AsideFormDataContextProps{
 export const AsideFormDataContext = createContext<AsideFormDataContextProps>({
     formData:{
         start:{
-            date:''
+            dateTime:'',
+            timeZone:'Europe/Warsaw'
           },
         end:{
-            date:''
+            dateTime:'',
+            timeZone:'Europe/Warsaw'
           },
           summary:'',
-        creator:{
-            email:''
-        }
+          description:''
     },
     setFormData:()=>{}
 })
@@ -25,15 +25,15 @@ export const AsideFormDataContext = createContext<AsideFormDataContextProps>({
 export const AsideFormDataProvider = ({children}) =>{
     const [formData,setFormData] = useState<AsideFormData>({
         start:{
-          date:''
+          dateTime:'',
+          timeZone:'Europe/Warsaw'
         },
         end:{
-          date:''
+          dateTime:'',
+          timeZone:'Europe/Warsaw'
         },
         summary:'',
-        creator:{
-          email:''
-        }
+        description:'',
       })
       return(
           <AsideFormDataContext.Provider value={{

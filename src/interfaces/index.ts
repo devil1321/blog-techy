@@ -67,15 +67,15 @@ export interface CreatePagesNodePerson {
 
 export interface  AsideFormData{
     start:{
-        date:string;
+        dateTime:string;
+        timeZone:string;
       },
     end:{
-        date:string;
+        dateTime:string;
+        timeZone:string;
       },
-      summary:'',
-    creator:{
-        email:string;
-    }
+      summary:string,
+      description:string;
 }
 
 export interface SearchNode{

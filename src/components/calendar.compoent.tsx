@@ -1,4 +1,5 @@
-import React,{useEffect,useContext,useRef} from 'react'
+import React,{useEffect,useState,useContext,useRef} from 'react'
+import axios from 'axios'
 import { AsideFormDataProvider, AsideFormDataContext } from '../context'
 
 import { gsap } from 'gsap'
@@ -9,7 +10,14 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 const Calendar = () => {
    
   const { formData ,setFormData } = useContext(AsideFormDataContext)
-    
+  const [isErrorTime,setIsErrorTime] = useState<boolean>(false)
+  const [isErrorSummary,setIsErrorSummary] = useState<boolean>(false)
+  const [isErrorDescription,setIsErrorDescription] = useState<boolean>(false)
+  const [isErrorDay,setIsErrorDay] = useState<boolean>(false)
+  const [isLoad, setIsLoad] = useState<boolean>(false)
+  const [events,setEvents] = useState<any>([])
+
+  const [currMonth,setCurrMonth] = useState<number>(0)
 
   class Calendar{
     public currDate:any
@@ -56,13 +64,41 @@ const Calendar = () => {
           if(i >= firstDay.getDay()){
             day.classList.add('calendar__day-hover')
             const dayNR = i - firstDay.getDay() + 1
-            this.tempDate = new Date(year,month,dayNR+1)
-            if(dayNR){
-                day.classList.add('--available')
-            }else[
-                day.classList.add('--not-available')
-            ]
-            day.setAttribute('data-date',this.tempDate.toISOString())
+            const hours = new Date()
+            this.tempDate = new Date(year,month,dayNR,1,0,0)
+        
+            var timeString = new Date(this.tempDate.toISOString());
+            var duration = '22:59:00';
+          
+            var startDate = new Date(timeString);
+            var msDuration = (Number(duration.split(':')[0]) * 60 * 60 + Number(duration.split(':')[1]) * 60  + Number(duration.split(':')[2])) * 1000;
+            var endDate = new Date(startDate.getTime() + msDuration);
+            var isoStartDate = new Date(startDate.getTime()-new Date().getTimezoneOffset()*60*1000).toISOString().split(".")[0];
+            var isoEndDate = new Date(endDate.getTime()-(new Date().getTimezoneOffset())*60*1000).toISOString().split(".")[0];
+          
+
+
+            day.setAttribute('data-start',isoStartDate)
+            this.tempDate = new Date(year,month,dayNR, 24,59,59)
+            day.setAttribute('data-end',isoEndDate)
+            events.map(event => {
+              console.log(event)
+              if(event.start.date){
+                var eventDate = new Date(event.start.date)
+              }else{
+                var eventDate = new Date(event.start.dateTime)
+              }
+              const isoEventDate = eventDate.toISOString()
+              if(eventDate.getTime() > this.currDate.getTime()){
+                if(day.dataset.start.slice(0,10) === isoEventDate.slice(0,10)){
+                  day.classList.add('--unavaiable')
+                }else{
+                  day.classList.add('--available')
+                  
+                }
+              }
+            })
+
             day.innerHTML = dayNR.toString()
             day.innerHTML += ``
             day.addEventListener('click',(e:any)=>{
@@ -91,18 +127,19 @@ const Calendar = () => {
       this.monthListRef.current.classList.remove('--show')
       const current = this.months.indexOf(e.target.textContent )
       this.currMonth = current
-      this.generateCalendar(this.currMonth,this.currYear)
+      setCurrMonth(current)
+      this.generateCalendar(current,this.currYear)
     }
     showMonths = () =>{
       this.monthListRef.current.classList.add('--show')
     }
     nextYear = () =>{
       this.currYear++
-      this.generateCalendar(this.currMonth,this.currYear)
+      this.generateCalendar(currMonth,this.currYear)
     }
     prevYear = () =>{
       this.currYear--
-      this.generateCalendar(this.currMonth,this.currYear)
+      this.generateCalendar(currMonth,this.currYear)
     }
     showTooltip = (e) =>{
         console.log('show')
@@ -112,24 +149,24 @@ const Calendar = () => {
         console.log(paragraph)
         this.tooltipRef.current.style.opacity = 1
         this.tooltipRef.current.style.visibility = 'visible'
-        if(e.clientX < 1145){
-            this.tooltipRef.current.style.top = e.clientY + 'px'
-            this.tooltipRef.current.style.left = e.clientX + 'px'
+        if(e.clientX < 1085){
+            this.tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
+            this.tooltipRef.current.style.left = e.target.offsetLeft + 'px'
         }else{
-            this.tooltipRef.current.style.top = e.clientY + 'px'
-            this.tooltipRef.current.style.left = e.clientX - 150 + 'px'
+            this.tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
+            this.tooltipRef.current.style.left = e.target.offsetLeft - 150 + 'px'
         }
         if(e.target.classList.contains('--available')){
             form.style.display = 'block'
             paragraph.textContent = 'Available'
             this.tooltipRef.current.classList.add('--available')
-            this.tooltipRef.current.classList.remove('--not-available')
+            this.tooltipRef.current.classList.remove('--unavaiable')
 
         }else{
             form.style.display = 'none'
             paragraph.textContent = 'Not Available'
-            this.tooltipRef.current.classList.add('--not-available')
-            this.tooltipRef.current.classList.remove('--avaiable')
+            this.tooltipRef.current.classList.add('--unavaiable')
+            this.tooltipRef.current.classList.remove('--unavaiable')
 
 
         }
@@ -138,36 +175,109 @@ const Calendar = () => {
        this.tooltipRef.current.style.opacity = 0
        this.tooltipRef.current.style.visibility = 'hidden'
        this.tooltipRef.current.style.top = '500px'
-       this.tooltipRef.current.style.left = '1000px'
+       this.tooltipRef.current.style.left = '-100px'
     }
     setDay = (e) =>{
         setFormData((prevState)=>({
             ...prevState,
+
             start:{
-              date:e.target.dataset.date
+              dateTime:e.target.dataset.start,
+              timeZone:"Europe/Warsaw"
             },
             end:{
-              date:e.target.dataset.date
+              dateTime:e.target.dataset.end,
+              timeZone:"Europe/Warsaw"
             }
           })
         )
     }
-    setCreator= (e) =>{
-        setFormData((prevState)=>({
-            ...prevState,
-            creator:{
-                email:e.target.value
-            }
-        }))
+    setBusyEvents = async () =>{
+      const options:any = {
+        method:"GET",
+        url:'https://blog-calendar.herokuapp.com/get-events'
+      }
+      const data = await axios.request(options)
+        .then(res => {
+           return res.data.items
+        })
+        .catch(err => console.log(err))
+        setEvents(data)
     }
     setSummary = (e) =>{
         setFormData((prevState)=>({
             ...prevState,
-            summary:e.targetValue
+            summary:e.target.value
         }))
     }
+    setDescription= (e) =>{
+      setFormData((prevState)=>({
+          ...prevState,
+          description:e.target.value
+      }))
+  }
     submitForm = (e) =>{
         e.preventDefault()
+        const date = new Date()
+        const tempDate = date.toISOString()
+        date.toISOString()
+        setTimeout(()=>{
+          this.generateCalendar(currMonth,CalendarUI.currYear)
+          this.hideTooltip()
+        },4000)
+        const options:any = {
+          method:"POST",
+          url:'https://blog-calendar.herokuapp.com/set-meeting',
+          data:formData,
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }
+        if(formData.start.dateTime.slice(0,10) >= tempDate.slice(0,10)){
+          if(formData.summary === ''){
+            setIsErrorSummary(true)
+            setTimeout(()=>{
+              setIsErrorSummary(false)
+            },1000)
+          }
+          else if(formData.description === ''){
+            setIsErrorDescription(true)
+            setTimeout(()=>{
+              setIsErrorDescription(false)
+            },1000)
+          }
+          else{
+          axios.request(options)
+          .then(res => {
+            if(res.data.error){
+                setIsErrorDay(true)
+                setTimeout(()=>{
+                  setIsErrorDay(false)
+                },1000)
+            }else{
+              setFormData({
+                start:{
+                dateTime:'',
+                timeZone:"Europe/Warsaw"
+              },
+              end:{
+                dateTime:'',
+                timeZone:"Europe/Warsaw"
+              },
+              summary:'',
+              description:'',
+            })
+          
+          } 
+          }).catch(err => console.log(err))
+        }
+      }else{
+    
+        setIsErrorTime(true)
+        setTimeout(()=>{
+          setIsErrorTime(false)
+        },1000)
+      }
     }
   }
 
@@ -201,9 +311,25 @@ const Calendar = () => {
 
 
   useEffect(()=>{
-    CalendarUI.generateMonths()
-    CalendarUI.generateCalendar(CalendarUI.currMonth,CalendarUI.currYear)
-  },[])
+    if(!isLoad){
+      setTimeout(()=>{
+        setIsLoad(true)
+      },1000)
+    }
+    new Promise((resolve,reject)=>{
+      CalendarUI.setBusyEvents()
+      setCurrMonth(CalendarUI.currMonth)
+      resolve('setted')
+    }).then((data)=>{
+      setTimeout(()=>{
+        console.log(events)
+      },1000)
+    })
+    if(isLoad){
+      CalendarUI.generateMonths()
+      CalendarUI.generateCalendar(currMonth,CalendarUI.currYear)
+    }
+  },[isLoad])
 
   return (
     <div className="calendar" ref={CalendarUI.calendarRef}>
@@ -241,12 +367,20 @@ const Calendar = () => {
                 <span></span>
                 <span></span>
             </div>
-            <form className="calendar__tooltip-form" action="">
-                <input type="text" placeholder="Your Name" onClick={()=>{}}/>
-                <input type="email" placeholder="Your Email" />
-                <button type="submit">Add Meeting</button>
+            <form className="calendar__tooltip-form" action="" onSubmit={(e)=>CalendarUI.submitForm(e)}>
+                <input type="text" placeholder="Your Name" value={formData.summary} onChange={(e)=>{CalendarUI.setSummary(e)}}/>
+                <input type="email" placeholder="Your Email" value={formData.description} onChange={(e)=>{CalendarUI.setDescription(e)}}/>
+                <button type="submit" onClick={()=>{
+                 setTimeout(()=>{
+                    CalendarUI.generateCalendar(currMonth,CalendarUI.currYear)
+                 },10000)
+                }}>Add Meeting</button>
             </form>
             <p></p>
+            {isErrorTime && <p className="--error">Choose Future Time</p>}
+            {isErrorSummary && <p className="--error">Enter Name</p>}
+            {isErrorDescription && <p className="--error">Enter Email</p>}
+            {isErrorDay && <p className="--error">Day Is Reserverd</p>}
         </div>
       </div>
   )

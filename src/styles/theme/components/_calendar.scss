@@ -1,5 +1,7 @@
 .calendar {
-    overflow: hidden;
+  position:relative;
+  top:0px;
+  left:0px;
   height: 260px;
   width: 330px;
 
@@ -8,6 +10,11 @@
   box-shadow: 0px 0px 5px lightgrey;
   background-color: $cornflower-blue;
   color: white;
+  @include breakpoint-down(small){
+    width:90%;
+    left:-2%;
+    margin:0px auto;
+  }
   &__header {
     margin: 0px 0px 30px;
     @include createFlex(row, space-between, center, null);
@@ -41,13 +48,20 @@
       cursor: pointer;
       text-align: center;
       padding: 10px 0px;
+      &.--unavaiable{
+        pointer-events: none;
+        background-color: red;
+      }
+      &.curr-date {
+        background-color: blue;
+      }
+      &.calendar__day-hover:hover {
+        background-color: orange;
+
+      }
     }
-    .calendar__day-hover:hover {
-      background-color: grey;
-    }
-    .curr-date {
-      background-color: blue;
-    }
+
+   
   }
   &__month-list {
     height: 260px;
@@ -84,10 +98,10 @@
       visibility: hidden;
     position: absolute;
     top: 500px;
-    left: 1000px;
+    left: -100px;
     z-index: 3;
     width: 200px;
-    height:150px;
+    height:180px;
     background-color: white;
     border-radius: 10px;
     padding: 30px 10px 10px 10px;
@@ -127,10 +141,16 @@
         color: yellowgreen;
       }
     }
-    &.--not-available {
+    &.--unavailable {
       p {
         color: red;
       }
+    }
+    &  .--error{
+      color:red !important;
+      position: relative;
+      top:-20px;
+      left:0px;
     }
   }
   &__tooltip-close{

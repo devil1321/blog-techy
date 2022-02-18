@@ -6,6 +6,12 @@
     width: 30%;
     min-height: 100vh;
     border-left:1px solid lightgrey;
+    @include breakpoint-down(small){
+        margin-top:50px;
+        width: 100%;
+        padding:0px 10px;
+        border:0px;
+    }
     &__title{
         margin-top: -20px;
         text-align: center;

@@ -66,9 +66,17 @@ a{
 .container{
     @include createFlex(row,center,flex-start,null);
     padding:50px 20px;
+    @include breakpoint-down(small){
+        @include createFlex(column,center,center,wrap);
+        overflow-x: hidden;
+    }
 }
 
 .container-inner{
     width: 70%;
     min-height: 88vh;
+    @include breakpoint-down(small){
+        width: 100%;
+        padding:0px 10px;
+    }
 }

@@ -58,7 +58,7 @@ export const query = graphql`
     authorName
     dateOfBirth
     userImage {
-      gatsbyImageData(formats: WEBP, layout: CONSTRAINED)
+      gatsbyImageData(formats: WEBP, layout: CONSTRAINED, placeholder: BLURRED)
     }
     authorDescription {
       raw
