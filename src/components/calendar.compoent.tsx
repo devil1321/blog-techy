@@ -21,6 +21,7 @@ const Calendar = () => {
 
   class Calendar{
     public currDate:any
+    public currDay:number;
     public currMonth:number
     public currYear:number;
     public months:string[]
@@ -35,6 +36,7 @@ const Calendar = () => {
 
     constructor(){
       this.currDate = new Date()
+      this.currDay = this.currDate.getDate()
       this.currMonth = this.currDate.getMonth()
       this.currYear = this.currDate.getFullYear()
       this.tempDate = ''
@@ -156,7 +158,7 @@ const Calendar = () => {
             this.tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
             this.tooltipRef.current.style.left = e.target.offsetLeft - 150 + 'px'
         }
-        if(e.target.classList.contains('--available')){
+        if(this.currDay >= this.currDate.getDate()){
             form.style.display = 'block'
             paragraph.textContent = 'Available'
             this.tooltipRef.current.classList.add('--available')
@@ -166,7 +168,7 @@ const Calendar = () => {
             form.style.display = 'none'
             paragraph.textContent = 'Not Available'
             this.tooltipRef.current.classList.add('--unavaiable')
-            this.tooltipRef.current.classList.remove('--unavaiable')
+            this.tooltipRef.current.classList.remove('--available')
 
 
         }
@@ -178,6 +180,8 @@ const Calendar = () => {
        this.tooltipRef.current.style.left = '-100px'
     }
     setDay = (e) =>{
+        const day = e.target.textContent 
+        this.currDay = parseInt(day) - 1
         setFormData((prevState)=>({
             ...prevState,
 

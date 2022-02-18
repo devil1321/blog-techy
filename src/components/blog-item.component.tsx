@@ -22,7 +22,7 @@ const BlogItem:React.FC<BlogItemProps> = ({data}) => {
           <div className="blog-item__content">
               <h2>{title}</h2>
               <h3>{subtitle}</h3>
-              <p>{authorName} / {authorEmail} / {date}</p>
+              <p>{authorName} / {authorEmail} / {date.slice(0,10)}</p>
           </div>
       </div>
     </Link>
