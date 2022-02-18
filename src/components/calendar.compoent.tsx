@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
-const Calendar = () => {
+const Calendar:React.FC<any> = ({fullWidth,auto}) => {
    
   const { formData ,setFormData } = useContext(AsideFormDataContext)
   const [isErrorTime,setIsErrorTime] = useState<boolean>(false)
@@ -336,7 +336,7 @@ const Calendar = () => {
   },[isLoad])
 
   return (
-    <div className="calendar" ref={CalendarUI.calendarRef}>
+    <div className={`calendar ${fullWidth ? 'full-width' : null} ${auto ? "auto" : null}`} ref={CalendarUI.calendarRef}>
         <div className="calendar__header">
           <span onClick={()=>{CalendarUI.showMonths()}} className="calendar__month-picker" id="month-picker" ref={CalendarUI.monthPickerRef}>
             Febuary

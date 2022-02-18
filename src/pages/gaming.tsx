@@ -9,7 +9,7 @@ const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
   return (
     <LayoutWithAside>
       <div className="posts-page">
-        <Seo title ="Technology | Gaming" />
+        <Seo title ="Gaming" />
         <h1>Gaming Posts</h1>
         {data.allContentfulArticles.nodes.map((node:PageQueryArticles)=>{
           return <BlogItem key={node.id} data={node} />

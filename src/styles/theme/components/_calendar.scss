@@ -1,3 +1,6 @@
+#year{
+  pointer-events: none;
+}
 .calendar {
   position:relative;
   top:0px;
@@ -10,18 +13,46 @@
   box-shadow: 0px 0px 5px lightgrey;
   background-color: $cornflower-blue;
   color: white;
+  &.full-width{
+    padding:20px 20px 20px;
+    min-width: 80%;
+    height: 100%;
+    .calendar__month-picker{
+      position: relative;
+      left:20px;
+      top:0px;
+      @include breakpoint-down(small){
+        left:0px;
+      }
+    }
+   .calendar__days {
+      div {
+        width: calc(100% / 7);
+        height:60px;
+        @include createFlex(row,center,center,null);
+      }
+    }
+  }
+  &.auto{
+    margin:0px auto;
+  }
   @include breakpoint-down(small){
     width:90%;
     left:-2%;
     margin:0px auto;
   }
   &__header {
-    margin: 0px 0px 30px;
+    margin: 0px 0px 15px;
     @include createFlex(row, space-between, center, null);
     font-weight: $f-bold;
   }
   &__month-picker {
     cursor: pointer;
+    padding:10px;
+    border-radius: 10px;
+    &:hover{
+      background-color:blue;
+    }
   }
   &__year-picker {
     span {
@@ -43,11 +74,16 @@
       width: calc(100% / 7);
     }
   }
+  &__week-day{
+    pointer-events: none;
+    text-align: center;
+  }
   &__days {
     div {
       cursor: pointer;
       text-align: center;
       padding: 10px 0px;
+      @include createFlex(row,center,center,null);
       &.--unavaiable{
         pointer-events: none;
         background-color: red;
