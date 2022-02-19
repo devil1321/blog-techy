@@ -1,12 +1,31 @@
 .author-template{
+    @include breakpoint-down(medium){
+        position: relative;
+        left:-10px;
+        top:0px;
+
+    }
     &__info-wrapper{
         @include createFlex(row,flex-start,center,null);
+        @include breakpoint-down(medium){
+         
+            @include createFlex(column,flex-start,center,null);
+        }
     }
+  
     &__info{
         margin-left:20px;
+        @include breakpoint-down(medium){
+            width: 100%;
+            margin-left:10px;
+
+        }
         svg{
             min-width: 20px;
             margin-right: 10px;
         }
+    }
+    h1,h3,p{
+        @include createFlex(row,flex-start,center,null);
     }
 }

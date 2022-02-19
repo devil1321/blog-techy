@@ -5,25 +5,41 @@
     top:0px;
     left:0px;
     height:70px;
-    width: 100%;
     background-color: $cornflower-blue;
     @include createFlex(row,space-between,center,null);
-    @include breakpoint-down(small){
+    @include breakpoint-down(medium){
         padding:0px 10px;
+    }
+    @include breakpoint-down(small){
+        padding:0px;
     }
     svg{
         margin:0px 10px;
         min-width: 30px;
         min-height:30px;
         color:white;
+        @include breakpoint-down(small){
+            position: relative;
+            right:10px;
+            top:0px;
+        }
     }
-  
+    &__menu{
+        min-width: 320px;
+        @include breakpoint-down(small){
+            position: relative;
+            left:7px;
+            top:0px;
+        }
+        
+    }
     &__link{
         text-decoration: none;
         color:white;
         padding:21px 10px;
         font-family: $nav-font;
         border-bottom: 4px solid transparent;
+    
         &:hover{
             border-bottom: 4px solid purple;
         }
@@ -34,7 +50,7 @@
         i{
             color:white;
             margin:0px 10px;
-            @include breakpoint-down(small){
+            @include breakpoint-down(medium){
                 display: none;
             }
         }
@@ -60,7 +76,7 @@
         background-color: $cornflower-blue;
         transition: all 1s ease-in-out;
         @include createFlex(row,flex-start,center,null);
-        @include breakpoint-down(small){
+        @include breakpoint-down(medium){
             padding:0px 10px;
         }
         &-field{
@@ -83,17 +99,68 @@
         cursor: pointer;
         pointer-events: all;
         margin-left: auto;
+        @include breakpoint-down(small){
+           position:relative;
+           right:40px;
+           top:0px;
+        }
         span{
             display: block;
             width: 40px;
             border-bottom: 2px solid white;
             transform-origin: 18px 1px;
+            @include breakpoint-down(small){
+                width: 30px;
+                transform-origin: 14px 1px;
+            }
             &:first-of-type{
                 transform:rotate(45deg);
             }
             &:last-of-type{
                 transform:rotate(-45deg);
             }
+        }
+    }
+    &__search-items{
+        overflow-y: scroll;
+        padding:10px;
+        position: absolute;
+        left:60px;
+        top:90px;
+        z-index: 5;
+        background-color: $cornflower-blue;
+        min-height: 200px;
+        height:100%;
+        max-height:100%;
+        max-width: 350px;
+        color:white;
+        transition: all 1s ease-in-out;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius:5px;
+        animation: searchIN 0.5s ease-in-out forwards;
+        box-shadow: 0px 2px 5px black;
+        @include breakpoint-down(medium){
+            left:50%;
+            width: 99vw;
+            transform:translateX(-50%);
+        }
+        @keyframes searchIN {
+            0%{
+                opacity:0;
+                top:100px;
+            }
+            100%{
+                opacity:1;
+                top:75px;
+            }
+        }
+    }
+    &__match-result{
+        cursor: pointer;
+        padding:10px 0px;
+        color:white;
+        &:hover{
+            background-color: grey;
         }
     }
 }

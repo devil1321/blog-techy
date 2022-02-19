@@ -1,7 +1,30 @@
+
+
+
 .aside{
     padding:30px;
     width: 30%;
     min-height: 100vh;
     border-left:1px solid lightgrey;
-
+    @include breakpoint-down(medium){
+        border-left:0px solid lightgrey;
+        margin-top:50px;
+        width: 100%;
+        padding:0px;
+        border:0px;
+    }
+    &__title{
+        margin-top: -20px;
+        text-align: center;
+        font-size: pxToRem(30);
+    }
+    
+    &__inner-wrapper{
+        @include breakpoint-down(medium){
+            @include createFlex(row,center,center,null)
+        }    
+        @include breakpoint-down(small){
+            @include createFlex(column,center,center,null)
+        }    
+    }
 }

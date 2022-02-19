@@ -1,3 +1,90 @@
 .footer{
-    margin-top: auto;
+    margin-top: 100px;
+    padding:20px 0px;
+    background-color: $cornflower-blue;
+    color:white;
+    @include createFlex(row,space-between, center, wrap);
+    &__col-1{
+        margin-left: 125px;
+        @include breakpoint-down(small){
+            margin-left: 50px;
+        }
+    }
+    h2,p{
+        margin:5px 0px;
+    }
+    h2{
+        font-family: $nav-font;
+        font-size: pxToRem(30);
+    }
+    &__cols{
+        @include createFlex(row,flex-start, flex-start, null);
+        margin-right: 120px;
+        @include breakpoint-down(small){
+            margin-right:0px;
+            @include createFlex(column,center,center, wrap);
+        }
+    }
+    &__col-2{
+        margin-right: 50px;
+        a{
+            margin:5px 0px;
+            min-width: fit-content;
+            display: block;
+            color:white;
+            &:hover{
+                text-decoration:underline;
+            }
+        }
+        @include breakpoint-down(small){
+            order:2;
+            margin-right: 0px;
+            position: relative;
+            left:35px;
+            top:0px;
+            a{
+                display: inline;
+                margin-right:10px;
+            }
+        }
+    }
+    &__col-3{
+        @include breakpoint-down(small){
+            order:1;
+            margin-left: 50px;
+        }
+    }
+    &__field{
+        margin:20px 0px 10px;
+        padding:10px 20px;
+        background-color: white;
+        border-radius: 25px;
+        svg{
+            color:$cornflower-blue;
+            fill:$cornflower-blue;
+        }
+        input{
+            padding-left: 5px;
+            border:0px;
+            background: transparent;
+            &:focus,&:active{
+                border:0px;
+                outline:none;
+            }
+        }
+    }
+    button{
+        width: 270px;
+        padding:12px 20px;
+        display: block;
+        background:linear-gradient(45deg,yellowgreen,skyblue);
+        border:0px;
+        border-radius: 25px;
+        font-weight: bold;
+        color:white;
+        &:active,&:focus{
+            border:0px;
+            outline:none;
+        }
+    }
 }
