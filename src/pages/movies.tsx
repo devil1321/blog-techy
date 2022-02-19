@@ -3,19 +3,19 @@ import { graphql } from 'gatsby'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { PageQueryArticlesArr,PageQueryArticles } from '../interfaces'
 import Seo from '../components/seo.component'
-import Layout from '../components/layout.component'
+import LayoutWithAside from '../components/layout-with-aside.component'
 import BlogItem from '../components/blog-item.component'
 const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
   return (
-    <Layout>
+    <LayoutWithAside>
       <div className="posts-page">
-        <Seo title ="Technology | Movies" />
+        <Seo title ="Movies" />
         <h1>Movies Posts</h1>
         {data.allContentfulArticles.nodes.map((node:PageQueryArticles)=>{
-          return <BlogItem key={node.id} data={node} />
+          return <BlogItem key={node.contentfulid} data={node} />
         })}
       </div>
-    </Layout>
+    </LayoutWithAside>
   )
 }
 
@@ -23,7 +23,6 @@ export const query = graphql`
   {
     allContentfulArticles(filter: {category: {eq: "movies"}}) {
       nodes {
-        id
         contentfulid
         category
         title
@@ -31,10 +30,9 @@ export const query = graphql`
         url
         date(formatString: "")
         img {
-          gatsbyImageData(layout: CONSTRAINED, formats: WEBP, placeholder: BLURRED)
+          gatsbyImageData(layout: FULL_WIDTH, formats: WEBP, placeholder: BLURRED)
         }
         author {
-          id
           authorName
           authorEmail
           dateOfBirth
