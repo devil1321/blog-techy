@@ -17,7 +17,7 @@ interface BlogPost{
 
 const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
   
-  const { img, title, subtitle, author, date } = data.contentfulArticles
+  const { img, title, subtitle, author, date , tags } = data.contentfulArticles
   const { contentfulid, authorName , authorEmail , dateOfBirth, userImage } = author
   
   const fixImg:any = img 
@@ -39,6 +39,10 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
          <div className="blog-post__main-content">
             <h1>{title}</h1>
             <h3>{subtitle}</h3>
+            <p className="blog-post__tags">{
+              tags.tags.map(tag => <span>#{tag} </span>)
+            }</p>
+            <p className="blog-post__date">Created At: {date.slice(0,10)}</p>
             <div className="blog-post__content">
               <div className="blog-post__image">
                  <GatsbyImage image={image} alt={"blog-image"} />

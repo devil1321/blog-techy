@@ -42,6 +42,9 @@ export interface PageQueryArticles{
     article?:{
         raw:string
     }
+    tags:{
+        tags:string[]
+    }
     author:Author
 }
 
