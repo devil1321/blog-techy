@@ -34,7 +34,6 @@ export const query = graphql`
           gatsbyImageData(layout: FULL_WIDTH, formats: WEBP, placeholder: BLURRED)
         }
         author {
-          id
           authorName
           authorEmail
           dateOfBirth
