@@ -10,14 +10,27 @@
     @include breakpoint-down(medium){
         padding:0px 10px;
     }
+    @include breakpoint-down(small){
+        padding:0px;
+    }
     svg{
         margin:0px 10px;
         min-width: 30px;
         min-height:30px;
         color:white;
+        @include breakpoint-down(small){
+            position: relative;
+            right:10px;
+            top:0px;
+        }
     }
     &__menu{
         min-width: 320px;
+        @include breakpoint-down(small){
+            position: relative;
+            left:7px;
+            top:0px;
+        }
         
     }
     &__link{
@@ -26,6 +39,7 @@
         padding:21px 10px;
         font-family: $nav-font;
         border-bottom: 4px solid transparent;
+    
         &:hover{
             border-bottom: 4px solid purple;
         }
@@ -87,7 +101,7 @@
         margin-left: auto;
         @include breakpoint-down(small){
            position:relative;
-           right:20px;
+           right:40px;
            top:0px;
         }
         span{
@@ -95,6 +109,10 @@
             width: 40px;
             border-bottom: 2px solid white;
             transform-origin: 18px 1px;
+            @include breakpoint-down(small){
+                width: 20px;
+                transform-origin: 9px 1px;
+            }
             &:first-of-type{
                 transform:rotate(45deg);
             }
