@@ -3,6 +3,10 @@
     font-family: $nav-font;
     font-size: pxToRem(40);
     text-align: center;
+    @include breakpoint-down(medium-sm){
+        margin:30px 0px;
+        font-size: pxToRem(35);
+    }
 }
 .purple{
     color:purple;
@@ -15,11 +19,28 @@
         width: 100vw;
         height:100vh;
         overflow: hidden;
+        @include breakpoint-down(medium-sm){
+            min-width: 200vw;
+            height:80vh;
+        }
+        @include breakpoint-down(medium-sm){
+            min-width: 200vw;
+            height:40vh;
+        }
+        @include breakpoint-down(small){
+            min-width: 200vw;
+            height:80vh;
+        }
         &-text{
             position:absolute;
             z-index: 2;
             top:180px;
             left:100px;
+            @include breakpoint-down(medium-sm){
+                top:90px;
+                left:50%;
+                transform: translateX(-95%);
+            }
             color:white;
             h1,h2,p{
                 margin:5px 0px;
@@ -42,15 +63,25 @@
             right:90px;
             width: 500px;
             height:500px;
+            @include breakpoint-down(medium){
+                display: none;
+            }
+           
         }
     }
     &__feature{
         &-content{
             @include createFlex(row,center,center,null);
+            @include breakpoint-down(medium-sm){
+                @include createFlex(column,center,center,null);
+            }
             h2,p{
                 
                 margin:30px 0px;
                 width: 60%;
+                @include breakpoint-down(medium-sm){
+                    width: 100%;
+                }
             }
             p{
                 font-size: pxToRem(18);
@@ -59,12 +90,19 @@
         }
         &-img{
             width: 50%;
+            @include breakpoint-down(medium-sm){
+                width: 100%;
+            }
         }
         &-text{
             position: relative;
             left:50px;
             top:0px;
             width: 50%;
+            @include breakpoint-down(medium-sm){
+                width: 100%;
+                left:0px;
+            }
         }
     }
 
@@ -82,6 +120,9 @@
         width: 100%;
         max-height:100%;
         overflow:hidden;
+        @include breakpoint-down(medium-sm){
+            min-width:280vw;
+        }
     }
     &__card-group{
         position: relative;
@@ -91,6 +132,10 @@
         width: 80%;
         margin:0px auto;
         @include createFlex(row,center,flex-start,null);
+        @include breakpoint-down(medium-sm){
+             @include createFlex(column,center,center,null);
+             width: 100%;
+        }
 
     }
     &__card{
@@ -104,6 +149,14 @@
         border-radius: 10px;
         width: 28%;
         transition:all 0.5s ease-in-out;
+        @include breakpoint-down(medium-sm){
+            width: 60%;
+            margin:20px 10px;
+        }
+        @include breakpoint-down(small){
+            width: 90%;
+            margin:20px 10px;
+        }
         &:hover{
             box-shadow: 0px 0px 40px rgba(0,0,0,0.55);
         }
@@ -126,18 +179,31 @@
     &__about-us{
         & > .title{
             margin:100px 0px 50px;
+            @include breakpoint-down(medium-sm){
+                margin:30px 0px;
+            }
         }
         &-content{
             @include createFlex(row,center,center,null);
+            @include breakpoint-down(medium-sm){
+                @include createFlex(column,center,center,null);
+            }
         }
         &-text{
             width: 50%;
             text-align: center;
+            @include breakpoint-down(medium-sm){
+                order:2;
+                width: 100%;
+            }
             h2,p{   
                 margin:30px 0px;
                 margin-left: auto;
                 margin-right: 100px;
                 width: 60%;
+                @include breakpoint-down(medium-sm){
+                    min-width: 100%;
+                }
             }
             p{
                 font-size: pxToRem(18);
@@ -145,6 +211,11 @@
         }
         &-img{
             width: 50%;
+            @include breakpoint-down(medium-sm){
+                margin:30px 0px;
+                width: 100%;
+                order:1;
+            }
         }
     }
 }

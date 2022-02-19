@@ -110,8 +110,8 @@
             border-bottom: 2px solid white;
             transform-origin: 18px 1px;
             @include breakpoint-down(small){
-                width: 20px;
-                transform-origin: 9px 1px;
+                width: 30px;
+                transform-origin: 14px 1px;
             }
             &:first-of-type{
                 transform:rotate(45deg);

@@ -44,6 +44,7 @@
 
 body{
     font-family: $blog-font;
+    overflow-x: hidden;
 }
 h1{
     font-weight: $f-bold;
@@ -62,6 +63,9 @@ a{
 .main-wrapper{
     width: 100vw;
     height:100%;
+      @include breakpoint-down(medium){
+        overflow-x: hidden;
+    }
 }
 .container{
     box-sizing: border-box; /* 1 */
