@@ -1,6 +1,12 @@
-import React,{ useEffect,useRef,useState }  from 'react'
+import React,{ useEffect,useRef,useContext }  from 'react'
+import Calendar from './calendar.compoent'
+import { AsideFormDataProvider, AsideFormDataContext } from '../context'
+import WheatherMainItem from './wheather-widget.component'
 
-const Aside = React.forwardRef((props,ref) => {
+
+const Aside = React.forwardRef((props,ref) => { 
+  const { formData ,setFormData } = useContext(AsideFormDataContext)
+ 
 
   class SetAside{
     public asideRef:any;
@@ -23,7 +29,15 @@ const Aside = React.forwardRef((props,ref) => {
   },[])
 
   return (
-    <div className="aside" ref={AsideUI.asideRef}>Aside Component</div>
+    <AsideFormDataProvider>
+      <div className="aside" ref={AsideUI.asideRef}>
+        <h2 className="aside__title">Make An Appointment</h2>
+        <div className="aside__inner-wrapper">
+          <Calendar />
+          <WheatherMainItem />
+        </div>
+      </div>
+    </AsideFormDataProvider>
   )
 })
 

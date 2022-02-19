@@ -31,3 +31,17 @@ src/styles/theme/templates/_author.scss
 src/styles/theme/templates/_blog-post.scss
 src/templates/author.template.tsx
 src/templates/blog.template.tsx
+src/context/index.tsx
+src/images/about-image.png
+src/images/cards-bg.jpg
+src/images/case-icon.png
+src/images/hands-icon.png
+src/images/hero-bg.jpg
+src/images/hero-item.png
+src/images/intro-image.png
+src/images/ux-ui-icon.png
+src/pages/404.tsx
+src/pages/all.tsx
+src/styles/theme/components/_calendar.scss
+src/styles/theme/components/_wheather-widget.scss
+src/styles/theme/pages/_404.scss

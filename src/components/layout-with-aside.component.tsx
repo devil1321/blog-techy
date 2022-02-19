@@ -6,7 +6,7 @@ import Navbar from './navbar.component'
 import Aside from './aside.component'
 import Footer from './footer.component'
 
-const Layout = ({children}) => {
+const LayoutWithAside = ({children}) => {
   const contRef = useRef()
   return (
     <div className="main-wrapper">
@@ -22,4 +22,4 @@ const Layout = ({children}) => {
   )
 }
 
-export default Layout
+export default LayoutWithAside
