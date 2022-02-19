@@ -12,7 +12,7 @@ const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
         <Seo title ="Gaming" />
         <h1>Gaming Posts</h1>
         {data.allContentfulArticles.nodes.map((node:PageQueryArticles)=>{
-          return <BlogItem key={node.id} data={node} />
+          return <BlogItem key={node.contentfulid} data={node} />
         })}
       </div>
     </LayoutWithAside>
@@ -24,7 +24,6 @@ export const query = graphql`
   {
     allContentfulArticles(filter: {category: {eq: "gaming"}}) {
       nodes {
-        id
         contentfulid
         category
         title

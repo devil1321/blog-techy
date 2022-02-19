@@ -32,7 +32,7 @@ export interface Author {
 }
 
 export interface PageQueryArticles{
-    id?:string;
+    contentfulid?:string;
     category:string;
     date:string;
     title:string;
