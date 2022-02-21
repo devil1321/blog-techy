@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPerson } from '@fortawesome/free-solid-svg-icons'
 import { faAt } from '@fortawesome/free-solid-svg-icons'
 import { faCakeCandles} from '@fortawesome/free-solid-svg-icons'
-import { graphql } from 'gatsby'
+import { useStaticQuery, graphql } from "gatsby"
 import { Author as AuthorModel } from '../interfaces'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import LayoutWithAside from '../components/layout-with-aside.component'
@@ -21,6 +21,9 @@ interface AuthorProps{
 }
 
 const Author :React.FC<AuthorProps> = ({context,data}) => {
+
+  
+
   const {authorName , authorEmail , dateOfBirth, userImage, authorDescription } = data.contentfulPerson
 
   const fixImg: any = userImage

@@ -25,28 +25,22 @@ const Navbar:React.FC = ():JSX.Element => {
 `)
   
 
-  class Search {
-    public searchRef:any;
-    public searchItemsRef:any;
-    public inputRef:any;
-    constructor(){
-      this.searchItemsRef = useRef()
-      this.inputRef = useRef()
-      this.searchRef = useRef()
+    const searchRef = useRef<HTMLDivElement>();
+    const searchItemsRef = useRef<HTMLDivElement>()
+    const inputRef = useRef<HTMLInputElement>()
+  
+    const isOpen = () =>{
+      searchRef.current.style.visibility = 'visible'
+      searchRef.current.style.opacity = '1'
     }
-    isOpen = () =>{
-      console.log('works')
-      this.searchRef.current.style.visibility = 'visible'
-      this.searchRef.current.style.opacity = 1
-    }
-    isClose = () =>{
+    const isClose = () =>{
       setMatches([])
-      this.inputRef.current.value = ''
-      this.searchRef.current.style.visibility = 'hidden'
-      this.searchRef.current.style.opacity = 0
+      inputRef.current.value = ''
+      searchRef.current.style.visibility = 'hidden'
+      searchRef.current.style.opacity = '0'
 
     }
-    isMatch = (e) => {
+    const isMatch = (e) => {
       if(e.target.value.length > 0){
         const tempMatches = data.allContentfulArticles.nodes.filter(item => {
           const matchRegExp = new RegExp(`^${e.target.value}`,'gi')
@@ -57,10 +51,8 @@ const Navbar:React.FC = ():JSX.Element => {
         setMatches([])
       }        
     }
-  }
    
   
-  const SearchUI = new Search
  
 useEffect(()=>{
 },[])
@@ -77,25 +69,25 @@ useEffect(()=>{
           <i className="fa fa-facebook-square fa-2x"></i>
           <i className="fa fa-twitter fa-2x"></i>
           <i className="fa fa-youtube fa-2x"></i>
-          <div className="--search" onClick={()=>{SearchUI.isOpen()}}>
+          <div className="navbar__magnify" onClick={()=>{isOpen()}}>
             <FontAwesomeIcon icon={faMagnifyingGlass}/>
           </div>
         </div>
-        <div className="navbar__search" ref={SearchUI.searchRef}>
+        <div className="navbar__search" ref={searchRef}>
           <div className="navbar__search-field">
             <FontAwesomeIcon icon={faMagnifyingGlass}/>
-            <input ref={SearchUI.inputRef} type="text" placeholder="What are you searching for ?" onInput={(e)=>{
-              SearchUI.isMatch(e)
+            <input ref={inputRef} type="text" placeholder="What are you searching for ?" onInput={(e)=>{
+              isMatch(e)
             }
             }/>
           </div>
-          <div className="navbar__close-btn --close" onClick={()=>{SearchUI.isClose()}}>
+          <div className="navbar__close-btn --close" onClick={()=>{isClose()}}>
             <span></span>
             <span></span>
           </div>
         </div>
         {matches.length > 0 && 
-        <div className="navbar__search-items" ref={SearchUI.searchItemsRef}>
+        <div className="navbar__search-items" ref={searchItemsRef}>
           {matches.map((match:NavbarMatchesState)=>{
             return <Link to={match.url}>
                       <div className="navbar__match-result">{match.title}</div>

@@ -5,9 +5,9 @@
     padding:30px;
     width: 30%;
     min-height: 100vh;
-    border-left:1px solid lightgrey;
+    border-left:1px solid light $grey;
     @include breakpoint-down(medium){
-        border-left:0px solid lightgrey;
+        border-left:0px solid light $grey;
         margin-top:50px;
         width: 100%;
         padding:0px;

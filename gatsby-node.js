@@ -1,140 +1,108 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+const path = require('path')
+const axios = require('axios')
+const crypto = require('crypto');
+
+
+
+exports.sourceNodes = async ({actions})=>{
+  const { createNode } = actions
+
+    const city = await axios.get('https://extreme-ip-lookup.com/json/')
+    .then(res => {
+        let city
+        if (res.data.city === '') {
+            return city = 'Warsaw'
+        } else {
+            return res.data.city
+        }
+    })
+    .catch(err => console.log(err))
+
+    const wheartherData = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
+        params: {
+            q: city,
+            appid: 'd355aaa337c3ed0e0876c199a8060479'
+        }
+    }).then(data =>{
+      return data
+    }).catch(err => console.log(err))
+    const { weather , visibility, wind,coord } = wheartherData.data
+    const { temp ,feels_like, humidity, pressure } = wheartherData.data.main
+
+    const wheatherNode = {
+      id: `WheatherData`,
+      parent: `__SOURCE__`,
+      internal: {
+          type: `Wheather`, // name of the graphQL query --> allRandomUser {}
+          // contentDigest will be added just after
+          // but it is required
+      },
+      children: [],
+      city,
+      weather,
+      visibility, 
+      wind,coord,temp,
+      feels_like, 
+      humidity, 
+      pressure,  
+      temp
     }
-};
-exports.__esModule = true;
-var path = require('path');
-var axios = require('axios');
-var crypto = require('crypto');
-exports.sourceNodes = function (_a) {
-    var actions = _a.actions;
-    return __awaiter(void 0, void 0, void 0, function () {
-        var createNode, city, wheartherData, _b, weather, visibility, wind, coord, _c, temp, feels_like, humidity, pressure, wheatherNode, contentDigest;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
-                case 0:
-                    createNode = actions.createNode;
-                    return [4 /*yield*/, axios.get('https://extreme-ip-lookup.com/json/')
-                            .then(function (res) {
-                            var city;
-                            if (res.data.city === '') {
-                                return city = 'Warsaw';
-                            }
-                            else {
-                                return res.data.city;
-                            }
-                        })["catch"](function (err) { return console.log(err); })];
-                case 1:
-                    city = _d.sent();
-                    return [4 /*yield*/, axios.get('https://api.openweathermap.org/data/2.5/weather', {
-                            params: {
-                                q: city,
-                                appid: 'd355aaa337c3ed0e0876c199a8060479'
-                            }
-                        }).then(function (data) {
-                            return data;
-                        })["catch"](function (err) { return console.log(err); })];
-                case 2:
-                    wheartherData = _d.sent();
-                    _b = wheartherData.data, weather = _b.weather, visibility = _b.visibility, wind = _b.wind, coord = _b.coord;
-                    _c = wheartherData.data.main, temp = _c.temp, feels_like = _c.feels_like, humidity = _c.humidity, pressure = _c.pressure;
-                    wheatherNode = {
-                        id: "WheatherData",
-                        parent: "__SOURCE__",
-                        internal: {
-                            type: "Wheather"
-                        },
-                        children: [],
-                        city: city,
-                        weather: weather,
-                        visibility: visibility,
-                        wind: wind,
-                        coord: coord,
-                        temp: temp,
-                        feels_like: feels_like,
-                        humidity: humidity,
-                        pressure: pressure,
-                        temp: temp
-                    };
-                    contentDigest = crypto
-                        .createHash("md5")
-                        .update(JSON.stringify(wheatherNode))
-                        .digest("hex");
-                    // add it to userNode
-                    wheatherNode.internal.contentDigest = contentDigest;
-                    // Create node with the gatsby createNode() API
-                    createNode(wheatherNode);
-                    return [2 /*return*/];
+
+    const contentDigest = crypto
+      .createHash(`md5`)
+      .update(JSON.stringify(wheatherNode))
+      .digest(`hex`);
+      // add it to userNode
+      wheatherNode.internal.contentDigest = contentDigest;
+
+      // Create node with the gatsby createNode() API
+      createNode(wheatherNode);
+
+  }
+
+
+
+exports.createPages = async ({graphql,actions}) =>{
+    const blogs = await graphql(`
+    {
+      allContentfulArticles(filter: {node_locale: {eq: "en-US"}}) {
+        nodes {
+          id
+          url
+          contentfulid
+        }
+      }
+    }
+  `)
+    blogs.data.allContentfulArticles.nodes.forEach(node => {
+      actions.createPage({
+        path:`${node.url}/`,
+        component:path.resolve('./src/templates/blog.template.tsx'),
+        context:{
+          id:node.id,
+          contentfulid:parseInt(node.contentfulid)
+        }
+      })
+    })
+ 
+
+ const persons = await graphql(`{
+      allContentfulPerson(filter: {node_locale: {eq: "en-US"}}) {
+        nodes {
+          contentfulid
+          authorName
+        }
+      }
+    }
+  `)
+  persons.data.allContentfulPerson.nodes.forEach(node => {
+          actions.createPage({
+            path:`/author/${node.contentfulid}/${node.authorName}`,
+            component:path.resolve('./src/templates/author.template.tsx'),
+            context:{
+              contentfulid:parseInt(node.contentfulid)
             }
-        });
-    });
-};
-exports.createPages = function (_a) {
-    var graphql = _a.graphql, actions = _a.actions;
-    return __awaiter(void 0, void 0, void 0, function () {
-        var blogs, persons;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0: return [4 /*yield*/, graphql("\n    {\n      allContentfulArticles(filter: {node_locale: {eq: \"en-US\"}}) {\n        nodes {\n          id\n          url\n          contentfulid\n        }\n      }\n    }\n  ")];
-                case 1:
-                    blogs = _b.sent();
-                    blogs.data.allContentfulArticles.nodes.forEach(function (node) {
-                        actions.createPage({
-                            path: "".concat(node.url, "/"),
-                            component: path.resolve('./src/templates/blog.template.tsx'),
-                            context: {
-                                id: node.id,
-                                contentfulid: parseInt(node.contentfulid)
-                            }
-                        });
-                    });
-                    return [4 /*yield*/, graphql("{\n      allContentfulPerson(filter: {node_locale: {eq: \"en-US\"}}) {\n        nodes {\n          contentfulid\n          authorName\n        }\n      }\n    }\n  ")];
-                case 2:
-                    persons = _b.sent();
-                    persons.data.allContentfulPerson.nodes.forEach(function (node) {
-                        actions.createPage({
-                            path: "/author/".concat(node.contentfulid, "/").concat(node.authorName),
-                            component: path.resolve('./src/templates/author.template.tsx'),
-                            context: {
-                                contentfulid: parseInt(node.contentfulid)
-                            }
-                        });
-                    });
-                    return [2 /*return*/];
-            }
-        });
-    });
-};
+          })
+      })
+
+}

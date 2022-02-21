@@ -41,7 +41,7 @@
         border-bottom: 4px solid transparent;
     
         &:hover{
-            border-bottom: 4px solid purple;
+            border-bottom: 4px solid $purple;
         }
     }
     &__social{
@@ -50,11 +50,19 @@
         i{
             color:white;
             margin:0px 10px;
+            transition: all 0.3s ease-in-out;
             @include breakpoint-down(medium){
                 display: none;
             }
+            &:first-of-type{
+                color:blue;
+            }
+            &:nth-of-type(2){
+                color:$skyblue;
+            }
+            // &:last-of-type{}
         }
-        & .--search{
+        & .navbar__magnify{
             min-height:fit-content;
             cursor: pointer;
             svg{
@@ -79,7 +87,8 @@
         @include breakpoint-down(medium){
             padding:0px 10px;
         }
-        &-field{
+    }
+    &__search-field{
             @include createFlex(row,flex-start,center,null);
             input{
                 pointer-events: all;
@@ -94,7 +103,6 @@
                 }
             }
         }
-    }
     &__close-btn{
         cursor: pointer;
         pointer-events: all;
@@ -107,7 +115,7 @@
         span{
             display: block;
             width: 40px;
-            border-bottom: 2px solid white;
+            border-bottom: 2px solid $white;
             transform-origin: 18px 1px;
             @include breakpoint-down(small){
                 width: 30px;

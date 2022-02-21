@@ -1,149 +1,146 @@
-#year{
-  pointer-events: none;
-}
-.calendar {
-  position:relative;
-  top:0px;
-  left:0px;
-  height: 260px;
-  width: 330px;
-
-  padding: 20px;
+.react-calendar {
+  width: 370px;
+  padding:0px 5px;
+  max-width: 100%;
+  background: $cornflower-blue;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+  color:white;
+  font-weight: bold;
   border-radius: 10px;
-  box-shadow: 0px 0px 5px lightgrey;
-  background-color: $cornflower-blue;
+  abbr{
+    text-decoration: none !important;
+  }
+  button{
+    border-radius: 10px;
+  }
+  button:hover{
+    background-color: blue !important;
+  }
+}
+.react-calendar--doubleView {
+  width: 700px;
+}
+.react-calendar__navigation__label:hover{
+  background-color: blue !important;
+}
+.react-calendar--doubleView .react-calendar__viewContainer {
+  display: flex;
+  margin: -0.5em;
+}
+.react-calendar--doubleView .react-calendar__viewContainer > * {
+  width: 50%;
+  margin: 0.5em;
+}
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.react-calendar button {
+  margin: 0;
+  border: 0;
+  outline: none;
+  color:white;
+
+}
+.react-calendar button:enabled:hover {
+  cursor: pointer;
+  background-color: blue;
+}
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1em;
+}
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+}
+.react-calendar__navigation button:disabled {
+  background-color: #f0f0f0;
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #e6e6e6;
+}
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.75em;
+}
+.react-calendar__month-view__weekdays__weekday {
+  padding: 0.5em;
+}
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+.react-calendar__month-view__days__day--weekend {
+  
+  color: #d10000 !important;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575 !important;
+
+}
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+  padding: 2em 0.5em;
+}
+.react-calendar__tile {
+  max-width: 100%;
+  padding: 10px 6.6667px;
+  background: none;
+  text-align: center;
+  line-height: 16px;
+}
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0;
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #e6e6e6;
+}
+.react-calendar__tile--now {
+  background: #ffff76;
+}
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: #ffffa9;
+}
+.react-calendar__tile--hasActive {
+  background: #76baff;
+}
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #a9d4ff;
+}
+.react-calendar__tile--active {
+  background: #006edc;
   color: white;
-  @include breakpoint-down-l(medium){
-    height:290px;
-  }
-  &.full-width{
-    left:0.5%;
-    padding:20px 20px 20px;
-    min-width: 80%;
-    height: 100%;
-    @include breakpoint-down(small){
-      max-width: 85%;
-      height:310px;
-    }
-    .calendar__month-picker{
-      position: relative;
-      left:20px;
-      top:0px;
-      @include breakpoint-down(medium){
-        left:0px;
-      }
-    }
-   .calendar__days {
-      div {
-        width: calc(100% / 7);
-        height:60px;
-        @include createFlex(row,center,center,null);
-        @include breakpoint-down(small){
-          height:30px;
-        }
-      }
-    }
-  }
-  &.auto{
-    margin:0px auto;
-  }
-  @include breakpoint-down(medium){
-    width:90%;
-    left:-1%;
-    margin:0px auto;
-  }
-  &__header {
-    margin: 0px 0px 15px;
-    @include createFlex(row, space-between, center, null);
-    font-weight: $f-bold;
-  }
-  &__month-picker {
-    cursor: pointer;
-    padding:10px;
-    border-radius: 10px;
-    &:hover{
-      background-color:blue;
-    }
-  }
-  &__year-picker {
-    min-width: fit-content;
-    span {
-      margin: 0px 10px;
-      &:hover {
-        svg {
-          cursor: pointer;
-          transform: scale(1.2);
-          transition: all 0.2s ease-in-out;
-        }
-      }
-    }
-  }
-  &__week-day,
-  &__days {
-    margin: 10px 0px;
-    @include createFlex(row, flex-start, center, wrap);
-    div {
-      width: calc(100% / 7);
-    }
-  }
-  &__week-day{
-    pointer-events: none;
-    text-align: center;
-  }
-  &__days {
-    div {
-      cursor: pointer;
-      text-align: center;
-      padding: 10px 0px;
-      @include createFlex(row,center,center,null);
-      &.--unavaiable{
-        pointer-events: none;
-        background-color: red;
-      }
-      &.curr-date {
-        background-color: blue;
-      }
-      &.calendar__day-hover:hover {
-        background-color: orange;
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #1087ff;
+}
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #e6e6e6;
+}
 
-      }
-    }
-
-   
-  }
-  &__month-list {
-    height: 260px;
-    width: 330px;
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    @include createFlex(row, center, center, wrap);
-    background-color: $cornflower-blue;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-    &.--show {
-      opacity: 1;
-      visibility: visible;
-    }
-    div {
-      cursor: pointer;
-      padding: 25px 0px;
-      width: 30%;
-      text-align: center;
-      border-radius: 10px;
-      &:hover {
-        background-color: blue;
-      }
-    }
-  }
-
+.calendar{
   &__tooltip {
-      opacity:0;
-      visibility: hidden;
+    opacity:0;
+    visibility: hidden;
     position: absolute;
     top: 500px;
     left: -100px;
@@ -160,11 +157,11 @@
       margin:10px 0px;
       width: 95%;
       border: 0px;
-      border-bottom: 1px solid lightgrey;
+      border-bottom: 1px solid $lightgrey;
       &:focus, &:active{
         border:0px !important;
         outline:none !important;
-        border-bottom: 1px solid yellowgreen;
+        border-bottom: 1px solid $yellowgreen;
       }
     }
     button{
@@ -177,24 +174,24 @@
         padding:10px;
         margin:0px auto;
         border-radius: 5px;
-        background-color:yellowgreen;
+        background-color:$yellowgreen;
     }
     p {
       text-align: center;
       font-weight: bold;
       color:black;
     }
-    &.--available {
+    &__tooltip-available {
       p {
-        color: yellowgreen;
+        color: $yellowgreen;
       }
     }
-    &.--unavaiable {
+    &__tooltip-unavaiable {
       p {
         color: red;
       }
     }
-    &  .--error{
+    & .calendar__tolltip-error{
       color:red !important;
       position: relative;
       top:-20px;
