@@ -136,8 +136,19 @@
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
 }
+.calendar-wrapper{
+  position: relative;
+  top:0px;
+  left:0px;
+}
+
+.react-calendar .active{
+  background-color: red !important;
+  color: white !important;
+}
 
 .calendar{
+
   &__tooltip {
     opacity:0;
     visibility: hidden;

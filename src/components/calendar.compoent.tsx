@@ -13,6 +13,7 @@ const CalendarComp:React.FC = () => {
    
   const { formData ,setFormData } = useContext(AsideFormDataContext)
   const [value, onChange] = useState(new Date());
+  const [currDate,setCurrDate] = useState(new Date())
   const [isErrorTime,setIsErrorTime] = useState<boolean>(false)
   const [isErrorSummary,setIsErrorSummary] = useState<boolean>(false)
   const [isErrorDescription,setIsErrorDescription] = useState<boolean>(false)
@@ -22,41 +23,39 @@ const CalendarComp:React.FC = () => {
 
   const tooltipRef = useRef<HTMLDivElement>()
   
-  const showTooltip = (e) =>{
-        const paragraph = tooltipRef.current.querySelector('p')
-        const form = tooltipRef.current.querySelector('form')
-        tooltipRef.current.style.opacity = '1'
-        tooltipRef.current.style.visibility = 'visible'
-        if(e.clientX < 1085){
-            tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
-            tooltipRef.current.style.left = e.target.offsetLeft + 'px'
-        }else{
-            tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
-            tooltipRef.current.style.left = e.target.offsetLeft - 150 + 'px'
-        }
-        if('date-condition'){
-            form.style.display = 'block'
-            paragraph.textContent = 'Available'
-            tooltipRef.current.classList.add('calendar__tooltip-available')
-            tooltipRef.current.classList.remove('calendar__tooltip-unavaiable')
-
-        }else{
-            form.style.display = 'none'
-            paragraph.textContent = 'Not Available'
-            tooltipRef.current.classList.add('calendar__tooltip-unavaiable')
-            tooltipRef.current.classList.remove('calendar__tooltip-available')
-
-
-        }
+  const parseDate = () =>{
+    const newDate = new Date(value)
+    setParsedDate(newDate.toISOString())
   }
-  const hideTooltip = () =>{
-     tooltipRef.current.style.opacity = '0'
-     tooltipRef.current.style.visibility = 'hidden'
-     tooltipRef.current.style.top = '500px'
-     tooltipRef.current.style.left = '-100px'
+  const checkDate = () =>{
+    const currISO = value.toISOString()
+    const paragraph = tooltipRef.current.querySelector('p')
+    const form = tooltipRef.current.querySelector('form')
+    let eventDate
+    let dates:string[] = []
+    events.map(event =>{
+        if(event.start.date){
+          eventDate = new Date(event.start.date)
+        }else{
+          eventDate = new Date(event.start.dateTime)
+        }
+        const eventDateISO = eventDate.toISOString()
+        dates.push(eventDateISO.slice(0,10))
+      })
+      if(currDate.getTime() <= value.getTime() && !dates.includes(currISO.slice(0,10))){
+        form.style.display = 'block'
+        paragraph.textContent = 'Available'
+        tooltipRef.current.classList.add('calendar__tooltip-available')
+        tooltipRef.current.classList.remove('calendar__tooltip-unavaiable')
+        
+      }else{
+        form.style.display = 'none'
+        paragraph.textContent = 'Not Available'
+        tooltipRef.current.classList.add('calendar__tooltip-unavaiable')
+        tooltipRef.current.classList.remove('calendar__tooltip-available')
+      }
   }
-
-  const setBusyEvents = async () =>{
+  const fetchBusyEvents = async () =>{
       const options:any = {
         method:"GET",
         url:'https://blog-calendar.herokuapp.com/get-events'
@@ -68,7 +67,9 @@ const CalendarComp:React.FC = () => {
         .catch(err => console.log(err))
         setEvents(data)
   }
+
   const setDay = () =>{}
+
   const setSummary = (e) =>{
       setFormData((prevState)=>({
           ...prevState,
@@ -81,6 +82,24 @@ const CalendarComp:React.FC = () => {
         description:e.target.value
     }))
   }
+  const showTooltip = (e) =>{
+    tooltipRef.current.style.opacity = '1'
+    tooltipRef.current.style.visibility = 'visible'
+    if(e.clientX < 1085){
+        tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
+        tooltipRef.current.style.left = e.target.offsetLeft + 'px'
+    }else{
+        tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
+        tooltipRef.current.style.left = e.target.offsetLeft - 150 + 'px'
+    }
+  
+}
+ const hideTooltip = () =>{
+ tooltipRef.current.style.opacity = '0'
+ tooltipRef.current.style.visibility = 'hidden'
+ tooltipRef.current.style.top = '500px'
+ tooltipRef.current.style.left = '-100px'
+ }  
   const submitForm = (e) =>{
         e.preventDefault()
        
@@ -149,6 +168,11 @@ const CalendarComp:React.FC = () => {
 
   useEffect(()=>{
     handleAddListener()
+    checkDate()
+    if(!isLoad){
+      fetchBusyEvents()
+      setIsLoad(true)
+    }
   },[value])
 
   return (
