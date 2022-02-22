@@ -9,8 +9,10 @@
   color:white;
   font-weight: bold;
   border-radius: 10px;
+  margin:0px auto;
   abbr{
     text-decoration: none !important;
+    pointer-events: none;
   }
   button{
     border-radius: 10px;
@@ -62,11 +64,11 @@
   background: none;
 }
 .react-calendar__navigation button:disabled {
-  background-color: #f0f0f0;
+  background-color: #006edc;
 }
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: #006edc;
 }
 .react-calendar__month-view__weekdays {
   text-align: center;
@@ -103,27 +105,28 @@
   background: none;
   text-align: center;
   line-height: 16px;
+ 
 }
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
+  background-color: #006edc;
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: #006edc;
 }
 .react-calendar__tile--now {
-  background: #ffff76;
+  background: #006edc;
 }
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
+  background: #006edc;
 }
 .react-calendar__tile--hasActive {
-  background: #76baff;
+  background: #006edc;
 }
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  background: #a9d4ff;
+  background: #006edc;
 }
 .react-calendar__tile--active {
   background: #006edc;
@@ -131,17 +134,30 @@
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: #1087ff;
+  background: #006edc;
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #e6e6e6;
+  background-color: #006edc;
 }
 .calendar-wrapper{
   position: relative;
   top:0px;
   left:0px;
 }
+.react-calendar.full-width{
+  width:80%;
+  height:100%;
+  button{
+    padding:30px;
+  }
+  .react-calendar__navigation button{
+    padding:30px 30px 45px;
+  }
+  .react-calendar__navigation {
+    margin-bottom:30px;
+  }
 
+}
 .react-calendar .active{
   background-color: red !important;
   color: white !important;

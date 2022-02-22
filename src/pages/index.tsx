@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import { graphql } from 'gatsby'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Calendar from '../components/calendar.compoent'
@@ -6,6 +6,7 @@ import { PageQueryArticlesArr,PageQueryArticles } from '../interfaces'
 import Seo from '../components/seo.component'
 import LayoutWithoutAside from '../components/layout-without-aside.component'
 import BlogItem from '../components/blog-item.component'
+import CalendarComp from '../components/calendar.compoent'
 
 const Home:React.FC<PageQueryArticlesArr> = (props) => {
 
@@ -22,6 +23,7 @@ const Home:React.FC<PageQueryArticlesArr> = (props) => {
       const gatsbySrcImg = getImage(img.gatsbyImageData)
       return gatsbySrcImg
     }
+
   return (
     <LayoutWithoutAside>
       <div className="about-page">
@@ -98,7 +100,7 @@ const Home:React.FC<PageQueryArticlesArr> = (props) => {
         </div>
         <div className="about-page__contact">
           <h2 className="title">Make An Appointment</h2>
-          {/* calendarz do wstawienia */}
+          <CalendarComp />
         </div>
       </div>
     </div>
