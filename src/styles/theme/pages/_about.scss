@@ -1,15 +1,15 @@
 .title{
-    margin:100px 0px;
+    margin:$m-v-l 0px;
     font-family: $nav-font;
-    font-size: pxToRem(40);
+    font-size: pxToRem($f-size-l);
     text-align: center;
     @include breakpoint-down(medium-sm){
-        margin:30px 0px;
+        margin:$m-md-l 0px;
         font-size: pxToRem(35);
     }
 }
 .purple{
-    color:purple;
+    color:$purple;
 }
 .about-page{
     &__hero{
@@ -44,11 +44,11 @@
         }
         color:white;
         h1,h2,p{
-            margin:5px 0px;
+            margin:$m-v-sm 0px;
         }
         h1{
             font-family: $nav-font;
-            font-size: pxToRem(80);
+            font-size: pxToRem($f-size-u);
         }
         h2{
             font-family: $blog-font;
@@ -77,23 +77,23 @@
             }
             h2,p{
                 
-                margin:30px 0px;
+                margin:$m-md-l 0px;
                 width: 60%;
                 @include breakpoint-down(medium-sm){
-                    width: 100%;
+                    width: $s-100-p;
                 }
             }
             p{
-                font-size: pxToRem(18);
+                font-size: pxToRem($f-sm-sm-md);
                 text-align: center;
             }
         }
     
     }
     &__feature-img{
-        width: 50%;
+        width: $s-50-p;
         @include breakpoint-down(medium-sm){
-            width: 100%;
+            width: $s-100-p;
         }
     }
     &__feature-text{
@@ -102,13 +102,13 @@
         top:0px;
         width: 50%;
         @include breakpoint-down(medium-sm){
-            width: 100%;
+            width: $s-100-p;
             left:0px;
         }
     }
 
     &__card-group-wrapper{
-        padding:50px 0px 100px;
+        padding:$p-l 0px $p-v-l;
         position: relative;
         top:0px;
         left:0px;
@@ -118,8 +118,8 @@
         top:0px;
         left:0px;
         z-index: -1;
-        width: 100%;
-        max-height:100%;
+        width: $s-100-p;
+        max-height:$s-100-p;
         overflow:hidden;
         @include breakpoint-down(medium-sm){
             min-width:280vw;
@@ -135,16 +135,16 @@
         @include createFlex(row,center,flex-start,null);
         @include breakpoint-down(medium-sm){
              @include createFlex(column,center,center,null);
-             width: 100%;
+             width: $s-100-p;
         }
 
     }
     &__card{
         cursor: pointer;
         box-sizing: border-box;
-        padding:30px 0px;
+        padding:$p-md-l 0px;
         height:330px;
-        margin:0px 20px;
+        margin:0px $m-sm-md;
         box-shadow: 0px 0px 80px rgba(0,0,0,0.15);
         background-color: white;
         border-radius: 10px;
@@ -152,18 +152,18 @@
         transition:all 0.5s ease-in-out;
         @include breakpoint-down(medium-sm){
             width: 60%;
-            margin:20px 10px;
+            margin:$m-sm-md $m-sm;
         }
         @include breakpoint-down(small){
             width: 90%;
-            margin:20px 10px;
+            margin:$m-sm-md $m-sm;
         }
         &:hover{
             box-shadow: 0px 0px 40px rgba(0,0,0,0.55);
         }
         h3{
             font-family: $nav-font;
-            font-size: pxToRem(30);
+            font-size: pxToRem($f-size-md);
             text-align: center;
         }
         p{
@@ -174,14 +174,14 @@
     }
     &__icon{
         margin:0px auto;
-        width: 100px;
-        height:100px;
+        width: $s-100;
+        height:$s-100;
     }
     &__about-us{
         & > .title{
-            margin:100px 0px 50px;
+            margin:$m-v-l 0px $m-l;
             @include breakpoint-down(medium-sm){
-                margin:30px 0px;
+                margin:$m-md-l 0px;
             }
         }
     }
@@ -193,30 +193,30 @@
         }
        
     &__about-us-text{
-            width: 50%;
+            width: $s-50-p;
             text-align: center;
             @include breakpoint-down(medium-sm){
                 order:2;
-                width: 100%;
+                width:$s-100-p;
             }
             h2,p{   
-                margin:30px 0px;
+                margin:$m-md-l 0px;
                 margin-left: auto;
-                margin-right: 100px;
+                margin-right: $m-v-l;
                 width: 60%;
                 @include breakpoint-down(medium-sm){
-                    min-width: 100%;
+                    min-width: $s-100-p;
                 }
             }
             p{
-                font-size: pxToRem(18);
+                font-size: pxToRem($f-sm-sm-md);
             }
         }
     &__about-us-img{
-            width: 50%;
+            width:$s-50-p;
             @include breakpoint-down(medium-sm){
-                margin:30px 0px;
-                width: 100%;
+                margin:$m-md-l 0px;
+                width: $s-100-p;
                 order:1;
             }
         }

@@ -14,15 +14,15 @@
     }
   
     &__info{
-        margin-left:20px;
+        margin-left:$m-sm-md;
         @include breakpoint-down(medium){
-            width: 100%;
-            margin-left:10px;
+            width: $s-100-p;
+            margin-left:$m-sm;
 
         }
         svg{
             min-width: 20px;
-            margin-right: 10px;
+            margin-right: $m-sm-md
         }
     }
     h1,h3,p{

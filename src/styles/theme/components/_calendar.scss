@@ -1,6 +1,6 @@
 .react-calendar {
-  width: 370px;
-  padding:0px 5px;
+  min-width: 370px;
+  padding:0px $p-v-sm;
   max-width: 100%;
   background: $cornflower-blue;
   border: 1px solid #a0a096;
@@ -10,6 +10,13 @@
   font-weight: bold;
   border-radius: 10px;
   margin:0px auto;
+  @include breakpoint-down(medium){
+    height: 350px;
+   }
+ 
+  @include breakpoint-down-l(medium-sm){
+   height: 330px;
+  }
   abbr{
     text-decoration: none !important;
     pointer-events: none;
@@ -18,14 +25,14 @@
     border-radius: 10px;
   }
   button:hover{
-    background-color: blue !important;
+    background-color: $blue !important;
   }
 }
 .react-calendar--doubleView {
   width: 700px;
 }
 .react-calendar__navigation__label:hover{
-  background-color: blue !important;
+  background-color: $blue !important;
 }
 .react-calendar--doubleView .react-calendar__viewContainer {
   display: flex;
@@ -52,7 +59,7 @@
 }
 .react-calendar button:enabled:hover {
   cursor: pointer;
-  background-color: blue;
+  background-color: $blue;
 }
 .react-calendar__navigation {
   display: flex;
@@ -100,44 +107,44 @@
   padding: 2em 0.5em;
 }
 .react-calendar__tile {
-  max-width: 100%;
-  padding: 10px 6.6667px;
+  max-width:$s-100-p;
+  padding: $p-sm 6.6667px;
   background: none;
   text-align: center;
   line-height: 16px;
  
 }
 .react-calendar__tile:disabled {
-  background-color: #006edc;
+  background-color: $blue;
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background-color: #006edc;
+  background-color: $blue;
 }
 .react-calendar__tile--now {
-  background: #006edc;
+  background: $blue;
 }
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #006edc;
+  background: $blue;
 }
 .react-calendar__tile--hasActive {
-  background: #006edc;
+  background: $blue;
 }
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  background: #006edc;
+  background: $blue;
 }
 .react-calendar__tile--active {
-  background: #006edc;
+  background: $blue;
   color: white;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: #006edc;
+  background: $blue;
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #006edc;
+  background-color: $blue;
 }
 .calendar-wrapper{
   position: relative;
@@ -146,21 +153,21 @@
 }
 .react-calendar.full-width{
   width:80%;
-  height:100%;
+  height:$s-100-p;
   button{
-    padding:30px;
+    padding:$p-md-l;
   }
   .react-calendar__navigation button{
-    padding:30px 30px 45px;
+    padding:$p-md-l $p-md-l 45px;
   }
   .react-calendar__navigation {
-    margin-bottom:30px;
+    margin-bottom:$m-md-l;
   }
 
 }
 .react-calendar .active{
-  background-color: red !important;
-  color: white !important;
+  background-color: $red !important;
+  color: $white !important;
 }
 
 .calendar{
@@ -172,16 +179,16 @@
     top: 500px;
     left: -100px;
     z-index: 3;
-    width: 200px;
+    width: $s-200;
     height:180px;
     background-color: white;
     border-radius: 10px;
-    padding: 30px 10px 10px 10px;
+    padding: $p-md-l $p-sm $p-sm $p-sm;
     transition: all 0.5s ease-in-out;
     box-shadow: 0px 0px 10px black;
     @include createFlex(column,center,center,null);
     input {
-      margin:10px 0px;
+      margin:$m-sm 0px;
       width: 95%;
       border: 0px;
       border-bottom: 1px solid $lightgrey;
@@ -193,12 +200,12 @@
     }
     button{
         cursor: pointer;
-        margin:10px 0px;
+        margin:$m-sm 0px;
         display: block;
         font-weight:$f-bold;
         color:white;
         border:0px;
-        padding:10px;
+        padding:$p-sm;
         margin:0px auto;
         border-radius: 5px;
         background-color:$yellowgreen;
@@ -215,11 +222,11 @@
     }
     &__tooltip-unavaiable {
       p {
-        color: red;
+        color: $red;
       }
     }
     & .calendar__tolltip-error{
-      color:red !important;
+      color:$red !important;
       position: relative;
       top:-20px;
       left:0px;
@@ -233,7 +240,7 @@
       span{
           display: block;
           margin-left: auto;
-          width: 20px;
+          width: $s-20;
           border:2px solid black;
           border-radius: 25px;
           transform-origin: 9px 2px;
