@@ -1,9 +1,13 @@
-import { GatsbyImage } from 'gatsby-plugin-image'
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import React from 'react'
 
+interface GetImgSrcFn{
+  getImgSrc:(name:string) => IGatsbyImageData
+}
 
 
-const Feature:React.FC<any> = ({getImgSrc}) => {
+
+const Feature:React.FC<GetImgSrcFn> = ({getImgSrc}) => {
   
   return (
       <div className="about-page__feature">

@@ -1,7 +1,11 @@
-import { GatsbyImage } from 'gatsby-plugin-image'
+import { GatsbyImage,IGatsbyImageData } from 'gatsby-plugin-image'
 import React from 'react'
 
-const AboutUs:React.FC<any> = ({getImgSrc}) => {
+interface GetImgSrcFn{
+  getImgSrc:(name:string) => IGatsbyImageData
+}
+
+const AboutUs:React.FC<GetImgSrcFn> = ({getImgSrc}) => {
   return (
      <div className="about-page__about-us">
           <h2 className="title">Intresting people around world</h2>

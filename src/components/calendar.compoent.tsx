@@ -9,21 +9,27 @@ import Calendar from "react-calendar";
 import gsap from "gsap";
 import axios from "axios";
 import moment from "moment";
+import { AxiosOptions } from '../interfaces'
 import { AsideFormDataProvider, AsideFormDataContext } from "../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
+
 const CalendarComp: React.FC = () => {
   const { formData, setFormData } = useContext(AsideFormDataContext);
-  const [value, onChange] = useState(new Date());
-  const [currDate, setCurrDate] = useState(new Date());
+  const [value, onChange] = useState<Date>(new Date());
+  const [currDate, setCurrDate] = useState<Date>(new Date());
   const [isErrorTime, setIsErrorTime] = useState<boolean>(false);
   const [isErrorSummary, setIsErrorSummary] = useState<boolean>(false);
   const [isErrorDescription, setIsErrorDescription] = useState<boolean>(false);
   const [isErrorDay, setIsErrorDay] = useState<boolean>(false);
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [events, setEvents] = useState<any>([]);
+
+  setTimeout(()=>{
+    console.log(events)
+  },6000)
 
   const locale = "pl-PL";
 
@@ -43,13 +49,13 @@ const CalendarComp: React.FC = () => {
     setEvents(data);
   };
   const handleBusyEvents = () => {
-    const calendarItems = document.querySelectorAll(".react-calendar__tile");
-    calendarItems.forEach((day) => {
-      const abbr = day.querySelector("abbr");
+    const calendarItems = document.querySelectorAll(".react-calendar__tile") as NodeListOf<HTMLDivElement>
+    calendarItems.forEach((day:HTMLDivElement) => {
+      const abbr = day.querySelector("abbr")
       const abbrAriaLabel = abbr.getAttribute("aria-label");
       const itemDate = new Date(abbrAriaLabel);
       const itemDateISO = itemDate.toISOString();
-      let eventDate;
+      let eventDate: Date;
       events.map((event) => {
         if (event.start.date) {
           eventDate = new Date(event.start.date);
@@ -86,7 +92,7 @@ const CalendarComp: React.FC = () => {
     const currISO = value.toISOString();
     const paragraph = tooltipRef.current.querySelector("p");
     const form = tooltipRef.current.querySelector("form");
-    let eventDate;
+    let eventDate: Date;
     let dates: string[] = [];
 
     events.map((event) => {
@@ -95,7 +101,7 @@ const CalendarComp: React.FC = () => {
       } else {
         eventDate = new Date(event.start.dateTime);
       }
-      const eventDateISO = eventDate.toISOString();
+      const eventDateISO:string = eventDate.toISOString();
       dates.push(eventDateISO.slice(0, 10));
     });
     if (
@@ -125,13 +131,13 @@ const CalendarComp: React.FC = () => {
         Number(duration.split(":")[1]) * 60 +
         Number(duration.split(":")[2])) *
       1000;
-    let endDate = new Date(startDate.getTime() + msDuration);
-    let isoStartDate = new Date(
+    let endDate:Date = new Date(startDate.getTime() + msDuration);
+    let isoStartDate:string = new Date(
       startDate.getTime() - new Date().getTimezoneOffset() * 60 * 1000
     )
       .toISOString()
       .split(".")[0];
-    let isoEndDate = new Date(
+    let isoEndDate:string = new Date(
       endDate.getTime() - new Date().getTimezoneOffset() * 60 * 1000
     )
       .toISOString()
@@ -162,7 +168,7 @@ const CalendarComp: React.FC = () => {
   };
   const submitForm = (e) => {
     e.preventDefault();
-    const options: any = {
+    const options: AxiosOptions = {
       method: "POST",
       url: "https://blog-calendar.herokuapp.com/set-meeting",
       data: formData,
@@ -219,8 +225,8 @@ const CalendarComp: React.FC = () => {
   };
 
   const handleAddDayEvent = () => {
-    const calendarItems = document.querySelectorAll(".react-calendar__tile");
-    calendarItems.forEach((item) =>
+    const calendarItems = document.querySelectorAll(".react-calendar__tile") as NodeListOf<HTMLDivElement>
+    calendarItems.forEach((item:HTMLDivElement) =>
       item.addEventListener("click", (e: any) => {
         showTooltip(e);
         setDay(e);
@@ -229,8 +235,8 @@ const CalendarComp: React.FC = () => {
   };
 
   const handleAddBtnsEvent = () => {
-    const calendar = document.querySelector(".react-calendar");
-    const btns = calendar.querySelectorAll("button");
+    const calendar = document.querySelector(".react-calendar") as HTMLDivElement;
+    const btns = calendar.querySelectorAll("button") as NodeListOf<HTMLButtonElement>;
     btns.forEach((btn) =>
       btn.addEventListener("click", () => {
         setTimeout(() => {
@@ -241,7 +247,7 @@ const CalendarComp: React.FC = () => {
   };
 
   const setCalendarSize = () => {
-    const calendar = document.querySelector(".react-calendar");
+    const calendar = document.querySelector(".react-calendar") as HTMLDivElement;
     calendar.classList.add("full-width");
   };
 

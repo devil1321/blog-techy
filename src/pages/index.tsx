@@ -1,12 +1,9 @@
-import React,{ useEffect } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
-import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
-import Calendar from '../components/calendar.compoent'
-import { PageQueryArticlesArr,PageQueryArticles } from '../interfaces'
+import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
+import { PageQueryImagesAboutUs } from '../interfaces'
 import Seo from '../components/seo.component'
 import LayoutWithoutAside from '../components/layout-without-aside.component'
-import BlogItem from '../components/blog-item.component'
-import CalendarComp from '../components/calendar.compoent'
 import Hero from '../components/about-page/hero.component'
 import Feature from '../components/about-page/feature.component'
 import Cards from '../components/about-page/cards.component'
@@ -17,7 +14,8 @@ interface GetImgSrcFn{
   (name:string):IGatsbyImageData
 }
 
-const Home:React.FC<PageQueryArticlesArr> = (props) => {
+const Home:React.FC<PageQueryImagesAboutUs> = (props) => {
+
 
   const images = props.data.allImageSharp.nodes
 

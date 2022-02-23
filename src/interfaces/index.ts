@@ -1,3 +1,4 @@
+import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 export interface ImageSources {
     sizes:string;
@@ -38,6 +39,7 @@ export interface PageQueryArticles{
     title:string;
     subtitle:string;
     url:string;
+    allImageSharp:GastsbyImgNode;
     img:GatsbyImageData
     article?:{
         raw:string
@@ -83,9 +85,36 @@ export interface  AsideFormData{
 
 export interface SearchNode{
     allContentfulArticles:{
-        nodes:{
-            title:string;
-            url:string;
+        nodes:NavbarMatchesState[]
+    }
+}
+
+export interface NavbarMatchesState {
+    title:string;
+    url:string;
+}
+
+export interface PageQueryImagesAboutUs {
+    data:{
+        allImageSharp:{
+            nodes:GastsbyImgNode[]
         }
+    }
+}
+
+export interface GastsbyImgNode{
+    gatsbyImageData:IGatsbyImageData
+    fluid:{
+        originalName:string;
+    }
+}
+
+
+export interface AxiosOptions {
+    method:any;
+    url:string;
+    data:AsideFormData;
+    headers:{
+        "Content-Type":string;
     }
 }
