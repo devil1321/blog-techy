@@ -5,15 +5,16 @@ import { PageQueryArticlesArr,PageQueryArticles } from '../interfaces'
 import Seo from '../components/seo.component'
 import LayoutWithAside from '../components/layout-with-aside.component'
 import BlogItem from '../components/blog-item.component'
-const Home:React.FC<PageQueryArticlesArr> = ({data}):JSX.Element => {
+
+const Movies:React.FC<PageQueryArticlesArr> = ({data}) => {
   return (
     <LayoutWithAside>
       <div className="posts-page">
         <Seo title ="Movies" />
         <h1>Movies Posts</h1>
-        {data.allContentfulArticles.nodes.map((node:PageQueryArticles)=>{
-          return <BlogItem key={node.contentfulid} data={node} />
-        })}
+        {data.allContentfulArticles.nodes.map((node:PageQueryArticles)=>(
+          <BlogItem key={node.contentfulid} data={node} />
+        ))}
       </div>
     </LayoutWithAside>
   )
@@ -47,4 +48,4 @@ export const query = graphql`
   }
 `
 
-export default Home
+export default Movies
