@@ -78,7 +78,7 @@ useEffect(()=>{
             }
             }/>
           </div>
-          <div className="navbar__close-btn --close" onClick={()=>{isClose()}}>
+          <div className="navbar__close-btn--close" onClick={()=>{isClose()}}>
             <span></span>
             <span></span>
           </div>
