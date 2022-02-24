@@ -1,393 +1,330 @@
-import React,{useEffect,useState,useContext,useRef} from 'react'
-import axios from 'axios'
-import { AsideFormDataProvider, AsideFormDataContext } from '../context'
-
-import { gsap } from 'gsap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
-
-const Calendar:React.FC<any> = ({fullWidth,auto}) => {
-   
-  const { formData ,setFormData } = useContext(AsideFormDataContext)
-  const [isErrorTime,setIsErrorTime] = useState<boolean>(false)
-  const [isErrorSummary,setIsErrorSummary] = useState<boolean>(false)
-  const [isErrorDescription,setIsErrorDescription] = useState<boolean>(false)
-  const [isErrorDay,setIsErrorDay] = useState<boolean>(false)
-  const [isLoad, setIsLoad] = useState<boolean>(false)
-  const [events,setEvents] = useState<any>([])
-
-  const [currMonth,setCurrMonth] = useState<number>(0)
-
-  class Calendar{
-    public currDate:any
-    public currDay:number;
-    public currMonth:number
-    public currYear:number;
-    public months:string[]
-    public daysOfMonth:number[]
-    public tempDate:any;
-    public calendarRef:any
-    public calendarDaysRef:any
-    public calendarHeaderYearRef:any
-    public monthPickerRef:any;
-    public monthListRef:any
-    public tooltipRef:any;
-
-    constructor(){
-      this.currDate = new Date()
-      this.currDay = this.currDate.getDate()
-      this.currMonth = this.currDate.getMonth()
-      this.currYear = this.currDate.getFullYear()
-      this.tempDate = ''
-      this.months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-      this.daysOfMonth = [31,this.getFebDays(this.currYear),31,30,31,30,31,31,30,31,30,31]
-      this.calendarRef = useRef()
-      this.calendarHeaderYearRef = useRef()
-      this.calendarDaysRef = useRef()
-      this.monthPickerRef = useRef()
-      this.monthListRef = useRef()
-      this.tooltipRef = useRef()
-    }
-    isLeapYear = (year) =>{
-      return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 ===0 && year % 400 === 0)
-    }
-    getFebDays = (year) =>{
-      return this.isLeapYear(year) ? 29 : 28
-    }
-    generateCalendar = (month,year) =>{
-        this.calendarDaysRef.current.innerHTML = ''
-        let firstDay = new Date(month,year,1)
-        this.monthPickerRef.current.innerHTML = this.months[month]
-        this.calendarHeaderYearRef.current.innerHTML = year
-        for(let i = 0; i <= this.daysOfMonth[month] + firstDay.getDay() -1; i++){
-          let day = document.createElement('div')
-          day.classList.add('calendar__day-item')
-          if(i >= firstDay.getDay()){
-            day.classList.add('calendar__day-hover')
-            const dayNR = i - firstDay.getDay() + 1
-            const hours = new Date()
-            this.tempDate = new Date(year,month,dayNR,1,0,0)
-        
-            var timeString = new Date(this.tempDate.toISOString());
-            var duration = '22:59:00';
-          
-            var startDate = new Date(timeString);
-            var msDuration = (Number(duration.split(':')[0]) * 60 * 60 + Number(duration.split(':')[1]) * 60  + Number(duration.split(':')[2])) * 1000;
-            var endDate = new Date(startDate.getTime() + msDuration);
-            var isoStartDate = new Date(startDate.getTime()-new Date().getTimezoneOffset()*60*1000).toISOString().split(".")[0];
-            var isoEndDate = new Date(endDate.getTime()-(new Date().getTimezoneOffset())*60*1000).toISOString().split(".")[0];
-          
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
+import Calendar from "react-calendar";
+import gsap from "gsap";
+import axios from "axios";
+import moment from "moment";
+import { AxiosOptions } from '../interfaces'
+import { AsideFormDataProvider, AsideFormDataContext } from "../context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 
-            day.setAttribute('data-start',isoStartDate)
-            this.tempDate = new Date(year,month,dayNR, 24,59,59)
-            day.setAttribute('data-end',isoEndDate)
-            events.map(event => {
-              console.log(event)
-              if(event.start.date){
-                var eventDate = new Date(event.start.date)
-              }else{
-                var eventDate = new Date(event.start.dateTime)
-              }
-              const isoEventDate = eventDate.toISOString()
-              if(eventDate.getTime() > this.currDate.getTime()){
-                if(day.dataset.start.slice(0,10) === isoEventDate.slice(0,10)){
-                  day.classList.add('--unavaiable')
-                }else{
-                  day.classList.add('--available')
-                  
-                }
-              }
-            })
+const CalendarComp: React.FC = () => {
+  const { formData, setFormData } = useContext(AsideFormDataContext);
+  const [value, onChange] = useState<Date>(new Date());
+  const [currDate, setCurrDate] = useState<Date>(new Date());
+  const [isErrorTime, setIsErrorTime] = useState<boolean>(false);
+  const [isErrorSummary, setIsErrorSummary] = useState<boolean>(false);
+  const [isErrorDescription, setIsErrorDescription] = useState<boolean>(false);
+  const [isErrorDay, setIsErrorDay] = useState<boolean>(false);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+  const [events, setEvents] = useState<any>([]);
 
-            day.innerHTML = dayNR.toString()
-            day.innerHTML += ``
-            day.addEventListener('click',(e:any)=>{
-                this.setDay(e)
-                this.showTooltip(e)
-            })
-          }
-          if(i - firstDay.getDay() + 1 === this.currDate.getDate() && year === this.currDate.getFullYear() && month === this.currDate.getMonth()){
-            day.classList.add('curr-date')
-          }
-          this.calendarDaysRef.current.appendChild(day)
-        }
-        AnimationsUI.calendarDaysComesIn()
-    }
-    generateMonths = () =>{
-      this.monthListRef.current.innerHTML = ''
-      this.months.forEach((month:string) => {
-        let monthEl = document.createElement('div')
-        monthEl.innerHTML = month
-        monthEl.addEventListener('click',(e)=>this.hideMonths(e))
-        this.monthListRef.current.appendChild(monthEl)
+  setTimeout(()=>{
+    console.log(events)
+  },6000)
+
+  const locale = "pl-PL";
+
+  const tooltipRef = useRef<HTMLDivElement>();
+
+  const fetchBusyEvents = async () => {
+    const options: any = {
+      method: "GET",
+      url: "https://blog-calendar.herokuapp.com/get-events",
+    };
+    const data = await axios
+      .request(options)
+      .then((res) => {
+        return res.data.items;
       })
-    }
-    hideMonths = (e:any) =>{
-      console.log('hide')
-      this.monthListRef.current.classList.remove('--show')
-      const current = this.months.indexOf(e.target.textContent )
-      this.currMonth = current
-      setCurrMonth(current)
-      this.generateCalendar(current,this.currYear)
-    }
-    showMonths = () =>{
-      this.monthListRef.current.classList.add('--show')
-    }
-    nextYear = () =>{
-      this.currYear++
-      this.generateCalendar(currMonth,this.currYear)
-    }
-    prevYear = () =>{
-      this.currYear--
-      this.generateCalendar(currMonth,this.currYear)
-    }
-    showTooltip = (e) =>{
-        console.log('show')
-        console.log(e.clientX)
-        const paragraph = this.tooltipRef.current.querySelector('p')
-        const form = this.tooltipRef.current.querySelector('form')
-        console.log(paragraph)
-        this.tooltipRef.current.style.opacity = 1
-        this.tooltipRef.current.style.visibility = 'visible'
-        if(e.clientX < 1085){
-            this.tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
-            this.tooltipRef.current.style.left = e.target.offsetLeft + 'px'
-        }else{
-            this.tooltipRef.current.style.top = e.target.offsetTop + 50 + 'px'
-            this.tooltipRef.current.style.left = e.target.offsetLeft - 150 + 'px'
+      .catch((err) => console.log(err));
+    setEvents(data);
+  };
+  const handleBusyEvents = () => {
+    const calendarItems = document.querySelectorAll(".react-calendar__tile") as NodeListOf<HTMLDivElement>
+    calendarItems.forEach((day:HTMLDivElement) => {
+      const abbr = day.querySelector("abbr")
+      const abbrAriaLabel = abbr.getAttribute("aria-label");
+      const itemDate = new Date(abbrAriaLabel);
+      const itemDateISO = itemDate.toISOString();
+      let eventDate: Date;
+      events.map((event) => {
+        if (event.start.date) {
+          eventDate = new Date(event.start.date);
+        } else {
+          eventDate = new Date(event.start.dateTime);
         }
-        if(this.currDay >= this.currDate.getDate()){
-            form.style.display = 'block'
-            paragraph.textContent = 'Available'
-            this.tooltipRef.current.classList.add('--available')
-            this.tooltipRef.current.classList.remove('--unavaiable')
-
-        }else{
-            form.style.display = 'none'
-            paragraph.textContent = 'Not Available'
-            this.tooltipRef.current.classList.add('--unavaiable')
-            this.tooltipRef.current.classList.remove('--available')
-
-
-        }
-    }
-    hideTooltip = () =>{
-       this.tooltipRef.current.style.opacity = 0
-       this.tooltipRef.current.style.visibility = 'hidden'
-       this.tooltipRef.current.style.top = '500px'
-       this.tooltipRef.current.style.left = '-100px'
-    }
-    setDay = (e) =>{
-        const day = e.target.textContent 
-        this.currDay = parseInt(day) - 1
-        setFormData((prevState)=>({
-            ...prevState,
-
-            start:{
-              dateTime:e.target.dataset.start,
-              timeZone:"Europe/Warsaw"
-            },
-            end:{
-              dateTime:e.target.dataset.end,
-              timeZone:"Europe/Warsaw"
-            }
-          })
-        )
-    }
-    setBusyEvents = async () =>{
-      const options:any = {
-        method:"GET",
-        url:'https://blog-calendar.herokuapp.com/get-events'
-      }
-      const data = await axios.request(options)
-        .then(res => {
-           return res.data.items
-        })
-        .catch(err => console.log(err))
-        setEvents(data)
-    }
-    setSummary = (e) =>{
-        setFormData((prevState)=>({
-            ...prevState,
-            summary:e.target.value
-        }))
-    }
-    setDescription= (e) =>{
-      setFormData((prevState)=>({
-          ...prevState,
-          description:e.target.value
-      }))
-  }
-    submitForm = (e) =>{
-        e.preventDefault()
-        const date = new Date()
-        const tempDate = date.toISOString()
-        date.toISOString()
-        setTimeout(()=>{
-          this.generateCalendar(currMonth,CalendarUI.currYear)
-          this.hideTooltip()
-        },4000)
-        const options:any = {
-          method:"POST",
-          url:'https://blog-calendar.herokuapp.com/set-meeting',
-          data:formData,
-          headers:{
-            'Content-Type':'application/json'
-          }
-        }
-        if(formData.start.dateTime.slice(0,10) >= tempDate.slice(0,10)){
-          if(formData.summary === ''){
-            setIsErrorSummary(true)
-            setTimeout(()=>{
-              setIsErrorSummary(false)
-            },1000)
-          }
-          else if(formData.description === ''){
-            setIsErrorDescription(true)
-            setTimeout(()=>{
-              setIsErrorDescription(false)
-            },1000)
-          }
-          else{
-          axios.request(options)
-          .then(res => {
-            if(res.data.error){
-                setIsErrorDay(true)
-                setTimeout(()=>{
-                  setIsErrorDay(false)
-                },1000)
-            }else{
-              setFormData({
-                start:{
-                dateTime:'',
-                timeZone:"Europe/Warsaw"
-              },
-              end:{
-                dateTime:'',
-                timeZone:"Europe/Warsaw"
-              },
-              summary:'',
-              description:'',
-            })
-          
-          } 
-          }).catch(err => console.log(err))
-        }
-      }else{
-    
-        setIsErrorTime(true)
-        setTimeout(()=>{
-          setIsErrorTime(false)
-        },1000)
-      }
-    }
-  }
-
-  class Animations {
-    public days:NodeListOf<HTMLDivElement>
-    public tlCalendar:any;
-    constructor(){
-      this.tlCalendar = gsap.timeline()
-    }
-    calendarDaysComesIn = () =>{
-      this.tlCalendar.fromTo('.calendar__day-item', {
-        y: 5,
-        x:-5,
-        opacity:0
-      },{
-        x:0,
-        y:0,
-        opacity:1,
-        stagger: { // wrap advanced options in an object
-          each: 0.05,
-          from: "start",
-          grid: "auto",
-          ease: "power2.inOut",
+        const eventDateISO = eventDate.toISOString();
+        if (itemDateISO.slice(0, 10) == eventDateISO.slice(0, 10)) {
+          day.style.color = "white";
+          day.style.backgroundColor = "red";
         }
       });
-    }
-  }
+    });
+  };
 
-  const CalendarUI = new Calendar()
-  const AnimationsUI = new Animations()
-
-
-  useEffect(()=>{
-    if(!isLoad){
-      setTimeout(()=>{
-        setIsLoad(true)
-      },1000)
+  const showTooltip = (e) => {
+    tooltipRef.current.style.opacity = "1";
+    tooltipRef.current.style.visibility = "visible";
+    if (e.clientX < 1085) {
+      tooltipRef.current.style.top = e.target.offsetTop + 50 + "px";
+      tooltipRef.current.style.left = e.target.offsetLeft + "px";
+    } else {
+      tooltipRef.current.style.top = e.target.offsetTop + 50 + "px";
+      tooltipRef.current.style.left = e.target.offsetLeft - 150 + "px";
     }
-    new Promise((resolve,reject)=>{
-      CalendarUI.setBusyEvents()
-      setCurrMonth(CalendarUI.currMonth)
-      resolve('setted')
-    }).then((data)=>{
-      setTimeout(()=>{
-        console.log(events)
-      },1000)
-    })
-    if(isLoad){
-      CalendarUI.generateMonths()
-      CalendarUI.generateCalendar(currMonth,CalendarUI.currYear)
+  };
+  const hideTooltip = () => {
+    tooltipRef.current.style.opacity = "0";
+    tooltipRef.current.style.visibility = "hidden";
+    tooltipRef.current.style.top = "500px";
+    tooltipRef.current.style.left = "-100px";
+  };
+  const checkDate = () => {
+    const currISO = value.toISOString();
+    const paragraph = tooltipRef.current.querySelector("p");
+    const form = tooltipRef.current.querySelector("form");
+    let eventDate: Date;
+    let dates: string[] = [];
+
+    events.map((event) => {
+      if (event.start.date) {
+        eventDate = new Date(event.start.date);
+      } else {
+        eventDate = new Date(event.start.dateTime);
+      }
+      const eventDateISO:string = eventDate.toISOString();
+      dates.push(eventDateISO.slice(0, 10));
+    });
+    if (
+      currDate.getTime() <= value.getTime() &&
+      !dates.includes(currISO.slice(0, 10))
+    ) {
+      form.style.display = "block";
+      paragraph.textContent = "Available";
+      paragraph.style.color = "yellowgreen";
+      tooltipRef.current.classList.add("calendar__tooltip-available");
+      tooltipRef.current.classList.remove("calendar__tooltip-unavaiable");
+    } else {
+      form.style.display = "none";
+      paragraph.textContent = "Unavailable";
+      paragraph.style.color = "red";
+      tooltipRef.current.classList.add("calendar__tooltip-unavaiable");
+      tooltipRef.current.classList.remove("calendar__tooltip-available");
     }
-  },[isLoad])
+  };
+  const setDay = (e) => {
+    const abbr = e.target.querySelector("abbr");
+    const date = abbr.getAttribute("aria-label");
+    let duration = "01:00:00";
+    let startDate = new Date(date);
+    let msDuration =
+      (Number(duration.split(":")[0]) * 60 * 60 +
+        Number(duration.split(":")[1]) * 60 +
+        Number(duration.split(":")[2])) *
+      1000;
+    let endDate:Date = new Date(startDate.getTime() + msDuration);
+    let isoStartDate:string = new Date(
+      startDate.getTime() - new Date().getTimezoneOffset() * 60 * 1000
+    )
+      .toISOString()
+      .split(".")[0];
+    let isoEndDate:string = new Date(
+      endDate.getTime() - new Date().getTimezoneOffset() * 60 * 1000
+    )
+      .toISOString()
+      .split(".")[0];
+    setFormData((prevState) => ({
+      start: {
+        dateTime: isoStartDate,
+        timeZone: "Europe/Warsaw",
+      },
+      end: {
+        dateTime: isoEndDate,
+        timeZone: "Europe/Warsaw",
+      },
+    }));
+  };
+
+  const setSummary = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      summary: e.target.value,
+    }));
+  };
+  const setDescription = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      description: e.target.value,
+    }));
+  };
+  const submitForm = (e) => {
+    e.preventDefault();
+    const options: AxiosOptions = {
+      method: "POST",
+      url: "https://blog-calendar.herokuapp.com/set-meeting",
+      data: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    if ("condition date current") {
+      if (formData.summary === "") {
+        setIsErrorSummary(true);
+        setTimeout(() => {
+          setIsErrorSummary(false);
+        }, 1000);
+      } else if (formData.description === "") {
+        setIsErrorDescription(true);
+        setTimeout(() => {
+          setIsErrorDescription(false);
+        }, 1000);
+      } else {
+        axios
+          .request(options)
+          .then((res) => {
+            if (res.data.error) {
+              setIsErrorDay(true);
+              setTimeout(() => {
+                setIsErrorDay(false);
+              }, 1000);
+            } else {
+              setFormData({
+                start: {
+                  dateTime: "",
+                  timeZone: "Europe/Warsaw",
+                },
+                end: {
+                  dateTime: "",
+                  timeZone: "Europe/Warsaw",
+                },
+                summary: "",
+                description: "",
+              });
+            }
+          })
+          .then((data) => {
+            hideTooltip();
+          })
+          .catch((err) => console.log(err));
+      }
+    } else {
+      setIsErrorTime(true);
+      setTimeout(() => {
+        setIsErrorTime(false);
+      }, 1000);
+    }
+  };
+
+  const handleAddDayEvent = () => {
+    const calendarItems = document.querySelectorAll(".react-calendar__tile") as NodeListOf<HTMLDivElement>
+    calendarItems.forEach((item:HTMLDivElement) =>
+      item.addEventListener("click", (e: any) => {
+        showTooltip(e);
+        setDay(e);
+      })
+    );
+  };
+
+  const handleAddBtnsEvent = () => {
+    const calendar = document.querySelector(".react-calendar") as HTMLDivElement;
+    const btns = calendar.querySelectorAll("button") as NodeListOf<HTMLButtonElement>;
+    btns.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        setTimeout(() => {
+          handleBusyEvents();
+        }, 10);
+      })
+    );
+  };
+
+  const setCalendarSize = () => {
+    const calendar = document.querySelector(".react-calendar") as HTMLDivElement;
+    calendar.classList.add("full-width");
+  };
+
+  useEffect(() => {
+    handleAddBtnsEvent();
+    handleAddDayEvent();
+    checkDate();
+    if (!isLoad) {
+      fetchBusyEvents();
+      setIsLoad(true);
+    }
+    if (events.length > 0) {
+      handleBusyEvents();
+    }
+    if (typeof window !== "undefined") {
+      if (window.location.pathname === "/") {
+        setCalendarSize();
+      }
+    }
+  }, [value, events]);
 
   return (
-    <div className={`calendar ${fullWidth ? 'full-width' : null} ${auto ? "auto" : null}`} ref={CalendarUI.calendarRef}>
-        <div className="calendar__header">
-          <span onClick={()=>{CalendarUI.showMonths()}} className="calendar__month-picker" id="month-picker" ref={CalendarUI.monthPickerRef}>
-            Febuary
-          </span>
-          <div className="calendar__year-picker">
-            <span className="year-change" id="prev-year" onClick={()=>{CalendarUI.prevYear()}}>
-              <span><FontAwesomeIcon icon={faChevronLeft} /></span>
-            </span>
-            <span id="year" ref={CalendarUI.calendarHeaderYearRef}>2022</span>
-            <span className="next-change" id="next-year" onClick={()=>{CalendarUI.nextYear()}}>
-              <span><FontAwesomeIcon icon={faChevronRight} /></span>
-            </span>
-          </div>
+    <div className="calendar-wrapper">
+      <Calendar
+        onChange={onChange}
+        formatLongDate={(locale, date) => moment(date).format()}
+        value={value}
+      />
+      <div className="calendar__tooltip" ref={tooltipRef}>
+        <div
+          className="calendar__tooltip-close"
+          onClick={() => {
+            hideTooltip();
+          }}
+        >
+          <span></span>
+          <span></span>
         </div>
-        <div className="calendar__body">
-          <div className="calendar__week-day">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-          </div>
-          <div className="calendar__days" ref={CalendarUI.calendarDaysRef}>
-           
-          </div>
-        </div>
-        <div className="calendar__month-list" ref={CalendarUI.monthListRef}></div>
-        <div className="calendar__tooltip" ref={CalendarUI.tooltipRef}>
-            <div className="calendar__tooltip-close" onClick={()=>{CalendarUI.hideTooltip()}}>
-                <span></span>
-                <span></span>
-            </div>
-            <form className="calendar__tooltip-form" action="" onSubmit={(e)=>CalendarUI.submitForm(e)}>
-                <input type="text" placeholder="Your Name" value={formData.summary} onChange={(e)=>{CalendarUI.setSummary(e)}}/>
-                <input type="email" placeholder="Your Email" value={formData.description} onChange={(e)=>{CalendarUI.setDescription(e)}}/>
-                <button type="submit" onClick={()=>{
-                 setTimeout(()=>{
-                    CalendarUI.generateCalendar(currMonth,CalendarUI.currYear)
-                 },10000)
-                }}>Add Meeting</button>
-            </form>
-            <p></p>
-            {isErrorTime && <p className="--error">Choose Future Time</p>}
-            {isErrorSummary && <p className="--error">Enter Name</p>}
-            {isErrorDescription && <p className="--error">Enter Email</p>}
-            {isErrorDay && <p className="--error">Day Is Reserverd</p>}
-        </div>
+        <form
+          className="calendar__tooltip-form"
+          action=""
+          onSubmit={(e) => submitForm(e)}
+        >
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={formData.summary}
+            onChange={(e) => {
+              setSummary(e);
+            }}
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={formData.description}
+            onChange={(e) => {
+              setDescription(e);
+            }}
+          />
+          <button type="submit">Add Meeting</button>
+        </form>
+        <p></p>
+        {isErrorTime && (
+          <p className="calendar__tooltip-error">Choose Future Time</p>
+        )}
+        {isErrorSummary && (
+          <p className="calendar__tooltip-error">Enter Name</p>
+        )}
+        {isErrorDescription && (
+          <p className="calendar__tooltip-error">Enter Email</p>
+        )}
+        {isErrorDay && (
+          <p className="calendar__tooltip-error">Day Is Reserverd</p>
+        )}
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Calendar
+export default CalendarComp;
