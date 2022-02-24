@@ -2,21 +2,21 @@
 
 
 .aside{
-    padding:30px;
+    padding:$p-md-l;
     width: 30%;
     min-height: 100vh;
-    border-left:1px solid lightgrey;
+    border-left:1px solid light $grey;
     @include breakpoint-down(medium){
-        border-left:0px solid lightgrey;
-        margin-top:50px;
+        border-left:0px solid light $grey;
+        margin-top:$m-l;
         width: 100%;
         padding:0px;
         border:0px;
     }
     &__title{
-        margin-top: -20px;
+        margin-top: -$m-sm-md;
         text-align: center;
-        font-size: pxToRem(30);
+        font-size: pxToRem($f-size-md);
     }
     
     &__inner-wrapper{

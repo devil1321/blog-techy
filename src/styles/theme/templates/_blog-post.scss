@@ -5,26 +5,29 @@
         top:0px;
     }
     h1,h3,p{
-        margin:5px 0px;
+        margin:$m-v-sm 0px;
     }
     &__date{
         margin-bottom: 40px !important;
     }
    &__main-content{
        h3{
-           margin-bottom:20px;
+           margin-bottom:$m-sm-md;
+       }
+       p{
+           margin:$m-sm-md 0px;
        }
    }
    &__image{
        width:96.5%;       
        @include breakpoint-down(medium){
-           width: 100%;
+           width: $s-100-p;
        }
    }
     &__text{
-        padding-top:30px;
+        padding-top:$p-md-l;
         padding-right: 35px;
-        padding-bottom:20px;
+        padding-bottom:$p-sm-md;
         @include breakpoint-down(medium){
             padding:0px;
         }
@@ -34,21 +37,21 @@
     }
     &__author-image{
         overflow:hidden;
-        width: 100px;
-        height:100px;
+        width: $s-100;
+        height:$s-100;
         border-radius: 100%;
         img{
-            width: 100%;
+            width:$s-100-p;
         }
     }
     &__author-info{
-        margin-left: 10px;
+        margin-left: $m-sm;
       
         h3,h5,p{
-            margin:5px 0px;
+            margin:$m-v-sm 0px;
         }
         p{
-            color:grey;
+            color:$grey;
         }
     }
 }
