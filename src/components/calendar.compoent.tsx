@@ -1,23 +1,31 @@
 import React, {
   useEffect,
   useState,
-  useContext,
   useRef,
-  useCallback,
 } from "react";
 import Calendar from "react-calendar";
-import gsap from "gsap";
 import axios from "axios";
 import moment from "moment";
-import { AxiosOptions } from '../interfaces'
-import { AsideFormDataProvider, AsideFormDataContext } from "../context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { AxiosOptions, FormDataStateCalendar } from '../interfaces'
 
+interface FetchBusyEvents {
+  method:any;
+  url:string;
+}
 
 const CalendarComp: React.FC = () => {
-  const { formData, setFormData } = useContext(AsideFormDataContext);
+  const [ formData, setFormData ] = useState<FormDataStateCalendar>({
+    start:{
+      dateTime: "",
+      timeZone: "Europe/Warsaw",
+    },
+    end:{
+      dateTime: "",
+      timeZone: "Europe/Warsaw",
+    },
+    summary: "",
+    description: "",
+  });
   const [value, onChange] = useState<Date>(new Date());
   const [currDate, setCurrDate] = useState<Date>(new Date());
   const [isErrorTime, setIsErrorTime] = useState<boolean>(false);
@@ -27,16 +35,12 @@ const CalendarComp: React.FC = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [events, setEvents] = useState<any>([]);
 
-  setTimeout(()=>{
-    console.log(events)
-  },6000)
-
   const locale = "pl-PL";
 
   const tooltipRef = useRef<HTMLDivElement>();
 
   const fetchBusyEvents = async () => {
-    const options: any = {
+    const options: FetchBusyEvents = {
       method: "GET",
       url: "https://blog-calendar.herokuapp.com/get-events",
     };

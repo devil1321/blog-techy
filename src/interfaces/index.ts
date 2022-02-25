@@ -70,17 +70,17 @@ export interface CreatePagesNodePerson {
 
 }
 
-export interface  AsideFormData{
-    start:{
+export interface  FormDataStateCalendar {
+    start?:{
         dateTime:string;
         timeZone:string;
       },
-    end:{
+    end?:{
         dateTime:string;
         timeZone:string;
       },
-      summary:string,
-      description:string;
+      summary?:string,
+      description?:string;
 }
 
 export interface SearchNode{
@@ -113,7 +113,7 @@ export interface GastsbyImgNode{
 export interface AxiosOptions {
     method:any;
     url:string;
-    data:AsideFormData;
+    data:FormDataStateCalendar;
     headers:{
         "Content-Type":string;
     }
