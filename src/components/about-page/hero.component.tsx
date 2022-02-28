@@ -1,8 +1,13 @@
 import React ,{useRef,useEffect} from 'react'
 import gsap from 'gsap'
-import { GatsbyImage } from 'gatsby-plugin-image'
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 
-const Hero:React.FC<any> = ({getImgSrc}) => {
+interface GetImgSrcFn{
+  getImgSrc:(name:string) => IGatsbyImageData
+}
+
+
+const Hero:React.FC<GetImgSrcFn> = ({getImgSrc}) => {
 
 
   const animEls = () =>{

@@ -6,7 +6,7 @@ import Link from 'gatsby-link'
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import { CreatePagesNodeArticle, PageQueryArticles } from '../interfaces'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-
+import { INLINES, BLOCKS, MARKS } from '@contentful/rich-text-types'
 
 interface BlogPost{
   data:{
@@ -15,7 +15,7 @@ interface BlogPost{
   context:CreatePagesNodeArticle
 }
 
-const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
+const Blog:React.FC<BlogPost> = ({data,context}) => {
   
   const { img, title, subtitle, author, date , tags } = data.contentfulArticles
   const { contentfulid, authorName , authorEmail , dateOfBirth, userImage } = author
@@ -26,10 +26,17 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
   const authorImage = getImage(fixUserImage)
 
   const raw = JSON.parse(data.contentfulArticles.article.raw)
+  
   const document = {
     nodeType: 'document',
     ...raw,
   };
+
+const options:any = {
+    [BLOCKS.PARAGRAPH]: (node, children) => {
+      return <p>{children}</p>
+    }
+  }
   
   return (
     <LayoutWithAside>
@@ -48,7 +55,7 @@ const Blog:React.FC<BlogPost> = ({data,context}):JSX.Element => {
                  <GatsbyImage image={image} alt={"blog-image"} />
               </div>
               <div className="blog-post__text">
-                {documentToReactComponents(document)}
+                {documentToReactComponents(document,options)}
               </div>
             </div>
          </div>

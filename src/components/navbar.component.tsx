@@ -3,14 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import Link from 'gatsby-link'
 import { useStaticQuery, graphql } from "gatsby"
-import { SearchNode } from '../interfaces'
+import { SearchNode, NavbarMatchesState } from '../interfaces'
 
-interface NavbarMatchesState {
-    title:string;
-    url:string;
-}
 
-const Navbar:React.FC = ():JSX.Element => {
+
+const Navbar:React.FC = () => {
   const [matches,setMatches] = useState<NavbarMatchesState[]>([])
 
   const data:SearchNode = useStaticQuery(graphql`
@@ -42,7 +39,7 @@ const Navbar:React.FC = ():JSX.Element => {
     }
     const isMatch = (e) => {
       if(e.target.value.length > 0){
-        const tempMatches = data.allContentfulArticles.nodes.filter(item => {
+        const tempMatches:NavbarMatchesState[] = data.allContentfulArticles.nodes.filter((item:NavbarMatchesState) => {
           const matchRegExp = new RegExp(`^${e.target.value}`,'gi')
           return item.title.match(matchRegExp)
         })
@@ -81,7 +78,7 @@ useEffect(()=>{
             }
             }/>
           </div>
-          <div className="navbar__close-btn --close" onClick={()=>{isClose()}}>
+          <div className="navbar__close-btn--close" onClick={()=>{isClose()}}>
             <span></span>
             <span></span>
           </div>
