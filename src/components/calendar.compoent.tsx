@@ -43,6 +43,9 @@ const CalendarComp: React.FC = () => {
     const options: FetchBusyEvents = {
       method: "GET",
       url: "https://blog-calendar.herokuapp.com/get-events",
+      headers:{
+        'Access-Control-Allow-Origin: *'
+      }
     };
     const data = await axios
       .request(options)
@@ -60,7 +63,7 @@ const CalendarComp: React.FC = () => {
       const itemDate = new Date(abbrAriaLabel);
       const itemDateISO = itemDate.toISOString();
       let eventDate: Date;
-      events.map((event) => {
+      events?.map((event) => {
         if (event.start.date) {
           eventDate = new Date(event.start.date);
         } else {
@@ -99,7 +102,7 @@ const CalendarComp: React.FC = () => {
     let eventDate: Date;
     let dates: string[] = [];
 
-    events.map((event) => {
+    events?.map((event) => {
       if (event.start.date) {
         eventDate = new Date(event.start.date);
       } else {
