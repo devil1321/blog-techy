@@ -42,9 +42,7 @@ const CalendarComp: React.FC = () => {
   const fetchBusyEvents = async () => {
     const options: FetchBusyEvents = {
       method: "GET",
-      url: "https://blog-calendar.herokuapp.com/get-events",
-      headers:{
-        'Access-Control-Allow-Origin: *'
+      url: "https://blog-calendar.herokuapp.com/get-events"
       }
     };
     const data = await axios
